@@ -67,7 +67,7 @@ public class OrderGenerator {
         char checksumOdd = CHARACTERSET.charAt(sumOdd % 36);
         char checksumEven = CHARACTERSET.charAt(sumEven % 36);
     
-        orderID = orderID + checksumOdd + checksumEven;
+        orderID = orderID + checksumEven + checksumOdd;
         return orderID;
     }
 
@@ -84,6 +84,7 @@ public class OrderGenerator {
      *          Biaya Ongkos Kirim: [Total Ongkos Kirim]
      */
     public static String generateBill(String OrderID, String lokasi){
+        lokasi = lokasi.toUpperCase();
         String namaRestoran = OrderID.substring(0, 4);
         String tanggalOrder = OrderID.substring(4, 12);
         String noTelepon = OrderID.substring(12, 14);
@@ -103,8 +104,7 @@ public class OrderGenerator {
 
         tanggalOrder = tanggalOrder.substring(0, 2) + "/" + tanggalOrder.substring(2, 4) + "/" + tanggalOrder.substring(4, 8);
         
-        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirim;
-    }
+        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: Rp " + biayaKirim;    }
 
     public static void main(String[] args) {
         while (true) {
