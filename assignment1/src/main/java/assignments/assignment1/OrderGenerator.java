@@ -85,6 +85,7 @@ public class OrderGenerator {
      */
     public static String generateBill(String OrderID, String lokasi){
         lokasi = lokasi.toUpperCase();
+
         String namaRestoran = OrderID.substring(0, 4);
         String tanggalOrder = OrderID.substring(4, 12);
         String noTelepon = OrderID.substring(12, 14);
@@ -103,8 +104,11 @@ public class OrderGenerator {
         }
 
         tanggalOrder = tanggalOrder.substring(0, 2) + "/" + tanggalOrder.substring(2, 4) + "/" + tanggalOrder.substring(4, 8);
+
+        String biayaKirimFormatted = String.format("Rp %,d", biayaKirim).replace(',', '.');
         
-        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: Rp " + biayaKirim;    }
+        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirimFormatted;
+    }
 
     public static void main(String[] args) {
         while (true) {
