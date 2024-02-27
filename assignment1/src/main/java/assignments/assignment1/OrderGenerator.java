@@ -35,9 +35,9 @@ public class OrderGenerator {
      * @return String Order ID dengan format sesuai pada dokumen soal
      */
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
-        String CHARACTERSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
         namaRestoran = namaRestoran.replace(" ", "");
-        String namaRestoranID = namaRestoran.substring(0, 3);
+        namaRestoran = namaRestoran.toUpperCase();
+        String namaRestoranID = namaRestoran.substring(0, 4);
 
         String tanggalOrderID = tanggalOrder.replace("/", "");
 
@@ -46,8 +46,13 @@ public class OrderGenerator {
             total += Character.getNumericValue(c);
         }
         String noTeleponID = String.format("%02d", total % 100);
+        String orderID = checksum(namaRestoranID, tanggalOrderID, noTeleponID);
+        return orderID;
+    }
 
+    public static String checksum(String namaRestoranID, String tanggalOrderID, String noTeleponID) {
         String orderID = namaRestoranID + tanggalOrderID + noTeleponID;
+        String CHARACTERSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
 
         int sumOdd = 0;
         int sumEven = 0;
@@ -79,8 +84,26 @@ public class OrderGenerator {
      *          Biaya Ongkos Kirim: [Total Ongkos Kirim]
      */
     public static String generateBill(String OrderID, String lokasi){
-        // TODO:Lengkapi method ini sehingga dapat mengenerate Bill sesuai ketentuan
-        return "Bill";
+        String namaRestoran = OrderID.substring(0, 4);
+        String tanggalOrder = OrderID.substring(4, 12);
+        String noTelepon = OrderID.substring(12, 14);
+
+        int biayaKirim = 0;
+        if (lokasi.equals("P")) {
+            biayaKirim = 10000;
+        } else if (lokasi.equals("U")) {
+            biayaKirim = 20000;
+        } else if (lokasi.equals("T")) {
+            biayaKirim = 35000;
+        } else if (lokasi.equals("S")) {
+            biayaKirim = 40000;
+        } else if (lokasi.equals("B")) {
+            biayaKirim = 60000;
+        }
+
+        tanggalOrder = tanggalOrder.substring(0, 2) + "/" + tanggalOrder.substring(2, 4) + "/" + tanggalOrder.substring(4, 8);
+        
+        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirim;
     }
 
     public static void main(String[] args) {
@@ -94,32 +117,72 @@ public class OrderGenerator {
             input.nextLine();
 
             if (pilihan == 1) {
-                System.out.println("Nama restoran: ");
+                System.out.print("Nama restoran: ");
                 String namaRestoran = input.nextLine();
 
                 if (namaRestoran.length() < 4) {
                     System.out.println("Nama restoran harus memiliki minimal 4 karakter!");
-                    return;
+                    continue;
                 }
         
-                System.out.println("Tanggal pemesanan: ");
+                System.out.print("Tanggal pemesanan: ");
                 String tanggalOrder = input.nextLine();
+
+                if (tanggalOrder.length() != 10) {
+                    System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!");
+                    continue;
+                }
         
-                System.out.println("No. telepon: ");
+                System.out.print("No. telepon: ");
                 String noTelepon = input.nextLine();
+
+                if (!noTelepon.matches("\\d+")) {
+                    System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.");
+                    continue;
+                }
         
                 String orderID = generateOrderID(namaRestoran, tanggalOrder, noTelepon);
                 System.out.println(orderID);
+
             } else if (pilihan == 2) {
-                System.out.println("Test");
+                System.out.print("Order ID: ");
+                String orderID = input.nextLine();
+                
+                if (orderID.length() != 16) {
+                    System.out.println("Order ID harus memiliki 16 karakter!");
+                    continue;
+                }
+
+                String namaRestoran = orderID.substring(0, 4);
+                String tanggalOrder = orderID.substring(4, 12);
+                String noTelepon = orderID.substring(12, 14);
+
+                if (!checksum(namaRestoran, tanggalOrder, noTelepon).equals(orderID)) {
+                    System.out.println("Order ID tidak valid!");
+                    continue;
+                }
+
+                String validLocations = "PUTSB";
+
+                System.out.print("Lokasi pengiriman: ");
+                String lokasi = input.nextLine();
+                lokasi = lokasi.toUpperCase();
+
+                if (validLocations.indexOf(lokasi) == -1) {
+                    System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!");
+                    continue;
+                }
+
+                String bill = generateBill(orderID, lokasi);
+                System.out.println(bill);
+                
             } else if (pilihan == 3) {
                 System.out.println("Terima kasih telah menggunakan DepeFood!");
                 break;
+
             } else {
                 System.out.println("Pilihan tidak valid!");
             }
         }
     }
-
-    
 }
