@@ -35,8 +35,35 @@ public class OrderGenerator {
      * @return String Order ID dengan format sesuai pada dokumen soal
      */
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {
-        // TODO:Lengkapi method ini sehingga dapat mengenerate Order ID sesuai ketentuan
-        return "TP";
+        String CHARACTERSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        namaRestoran = namaRestoran.replace(" ", "");
+        String namaRestoranID = namaRestoran.substring(0, 3);
+
+        String tanggalOrderID = tanggalOrder.replace("/", "");
+
+        int total = 0;
+        for (char c : noTelepon.toCharArray()) {
+            total += Character.getNumericValue(c);
+        }
+        String noTeleponID = String.format("%02d", total % 100);
+
+        String orderID = namaRestoranID + tanggalOrderID + noTeleponID;
+
+        int sumOdd = 0;
+        int sumEven = 0;
+        for (int i = 0; i < orderID.length(); i++) {
+            if (i % 2 == 0) {
+                sumEven += CHARACTERSET.indexOf(orderID.charAt(i));
+            } else {
+                sumOdd += CHARACTERSET.indexOf(orderID.charAt(i));
+            }
+        }
+    
+        char checksumOdd = CHARACTERSET.charAt(sumOdd % 36);
+        char checksumEven = CHARACTERSET.charAt(sumEven % 36);
+    
+        orderID = orderID + checksumOdd + checksumEven;
+        return orderID;
     }
 
 
@@ -57,7 +84,41 @@ public class OrderGenerator {
     }
 
     public static void main(String[] args) {
-        // TODO: Implementasikan program sesuai ketentuan yang diberikan
+        while (true) {
+            showMenu();
+            System.out.println("--------------------------------------------");
+
+            // Input
+            System.out.print("Pilihan menu: ");
+            int pilihan = input.nextInt();
+            input.nextLine();
+
+            if (pilihan == 1) {
+                System.out.println("Nama restoran: ");
+                String namaRestoran = input.nextLine();
+
+                if (namaRestoran.length() < 4) {
+                    System.out.println("Nama restoran harus memiliki minimal 4 karakter!");
+                    return;
+                }
+        
+                System.out.println("Tanggal pemesanan: ");
+                String tanggalOrder = input.nextLine();
+        
+                System.out.println("No. telepon: ");
+                String noTelepon = input.nextLine();
+        
+                String orderID = generateOrderID(namaRestoran, tanggalOrder, noTelepon);
+                System.out.println(orderID);
+            } else if (pilihan == 2) {
+                System.out.println("Test");
+            } else if (pilihan == 3) {
+                System.out.println("Terima kasih telah menggunakan DepeFood!");
+                break;
+            } else {
+                System.out.println("Pilihan tidak valid!");
+            }
+        }
     }
 
     
