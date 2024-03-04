@@ -107,7 +107,7 @@ public class OrderGenerator {
 
         String biayaKirimFormatted = String.format("Rp %,d", biayaKirim).replace(',', '.');
         
-        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirimFormatted;
+        return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirimFormatted + "\n";
     }
 
     public static void main(String[] args) {
