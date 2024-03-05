@@ -232,8 +232,8 @@ public class OrderGenerator {
 
                     // Generate the bill and print it
                     String bill = generateBill(orderID, lokasi);
-                    System.out.println(bill);
-                    System.out.print("--------------------------------------------");
+                    System.out.print(bill);
+                    System.out.println("--------------------------------------------");
                     break;
                 }
 
