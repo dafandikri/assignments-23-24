@@ -50,6 +50,7 @@ public class OrderGenerator {
         return orderID;
     }
 
+    // Method ini digunakan untuk membuat checksum dari order id
     public static String checksum(String namaRestoranID, String tanggalOrderID, String noTeleponID) {
         String orderID = namaRestoranID + tanggalOrderID + noTeleponID;
         String CHARACTERSET = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
@@ -108,6 +109,7 @@ public class OrderGenerator {
         return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirim + "\n";
     }
 
+    // Main method
     public static void main(String[] args) {
         while (true) {
             showMenu();
