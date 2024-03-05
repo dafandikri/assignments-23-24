@@ -26,8 +26,8 @@ import java.util.Scanner;
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
 
-    // Method to show the menu
-    public static void showMenu(){
+    // Method to show the title
+    public static void showTitle(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
         System.out.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
@@ -35,7 +35,10 @@ public class OrderGenerator {
         System.out.println("|||___/\\___.|  _/\\___.|_| \\___/\\___/\\___|||");
         System.out.println("||          |_|                          ||");
         System.out.println(">>=======================================<<");
-        System.out.println();
+    }
+
+    // Method to show the menu
+    public static void showMenu() {
         System.out.println("Pilih menu:");
         System.out.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
@@ -137,6 +140,8 @@ public class OrderGenerator {
 
     // Main method
     public static void main(String[] args) {
+        showTitle();
+        System.out.println();
         while (true) {
             // Show the menu
             showMenu();
@@ -156,7 +161,7 @@ public class OrderGenerator {
 
                     // Validate the restaurant's name
                     if (namaRestoran.length() < 4) {
-                        System.out.println("Nama restoran harus memiliki minimal 4 karakter!");
+                        System.out.println("Nama Restoran tidak valid!\n");
                         continue;
                     }
                     
@@ -166,7 +171,7 @@ public class OrderGenerator {
 
                     // Validate the order date usin
                     if (tanggalOrder.length() != 10 || !tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")) {
-                        System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!");
+                        System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
                         continue;
                     }
                     
@@ -176,13 +181,14 @@ public class OrderGenerator {
 
                     // Validate the phone number using regex if it is a positive integer
                     if (!noTelepon.matches("\\d+")) {
-                        System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.");
+                        System.out.println("Harap masukkan nomor telepon dalam bentuk bilangan bulat positif.\n");
                         continue;
                     }
                     
                     // Generate the order ID and print it
                     String orderID = generateOrderID(namaRestoran, tanggalOrder, noTelepon);
-                    System.out.println(orderID);
+                    System.out.println("Order ID " + orderID + " diterima!");
+                    System.out.println("--------------------------------------------");
                     break;
                 }
             
@@ -195,7 +201,7 @@ public class OrderGenerator {
                     
                     // Validate the order ID
                     if (orderID.length() != 16) {
-                        System.out.println("Order ID harus memiliki 16 karakter!");
+                        System.out.println("Order ID harus memiliki 16 karakter!\n");
                         continue;
                     }
 
@@ -206,7 +212,7 @@ public class OrderGenerator {
 
                     // Validate the order ID using the checksum
                     if (!checksum(namaRestoran, tanggalOrder, noTelepon).equals(orderID)) {
-                        System.out.println("Order ID tidak valid!");
+                        System.out.println("Order ID tidak valid!\n");
                         continue;
                     }
 
@@ -220,13 +226,14 @@ public class OrderGenerator {
 
                     // Validate the delivery location
                     if (validLocations.indexOf(lokasi) == -1) {
-                        System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!");
+                        System.out.println("Harap masukkan lokasi pengiriman yang ada pada jangkauan!\n");
                         continue;
                     }
 
                     // Generate the bill and print it
                     String bill = generateBill(orderID, lokasi);
                     System.out.println(bill);
+                    System.out.print("--------------------------------------------");
                     break;
                 }
 
@@ -237,7 +244,7 @@ public class OrderGenerator {
 
             // Invalid choice
             } else {
-                System.out.println("Pilihan tidak valid!");
+                System.out.println("Pilihan tidak valid!\n");
                 continue;
             }
         }
