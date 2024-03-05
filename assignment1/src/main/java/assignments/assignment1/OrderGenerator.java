@@ -131,7 +131,7 @@ public class OrderGenerator {
                     System.out.print("Tanggal pemesanan: ");
                     String tanggalOrder = input.nextLine();
 
-                    if (tanggalOrder.length() != 10) {
+                    if (tanggalOrder.length() != 10 || !tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")) {
                         System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!");
                         continue;
                     }
