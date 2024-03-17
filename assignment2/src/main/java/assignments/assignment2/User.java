@@ -6,7 +6,7 @@ public class User {
     private String nomorTelepon;
     private String email;
     private String lokasi;
-    private String role;
+    public String role;
     private ArrayList<Order> orderHistory;
 
     // Constructor

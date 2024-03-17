@@ -1,5 +1,6 @@
 package assignments.assignment2;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Scanner;
 // import assignments.assignment1.*;
@@ -25,8 +26,13 @@ public class MainMenu {
                 String noTelp = input.nextLine();
 
                 // TODO: Validasi input login
-
-                User userLoggedIn; // TODO: lengkapi
+                User userLoggedIn = getUser(nama, noTelp);
+                if(userLoggedIn == null){
+                    System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
+                    continue;
+                } else {
+                    System.out.println("Selamat datang, " + userLoggedIn.getNama() + "!");
+                }
                 boolean isLoggedIn = true;
 
                 if(userLoggedIn.role == "Customer"){
@@ -67,9 +73,14 @@ public class MainMenu {
         System.out.println("\nTerima kasih telah menggunakan DepeFood ^___^");
     }
 
+    // Get user by nama and nomorTelepon from userList
     public static User getUser(String nama, String nomorTelepon){
-        // TODO: Implementasi method untuk mendapat user dari userList
-        return null;
+        for (User currentUser : userList) {
+            if(currentUser.getNama().equals(nama) && currentUser.getNomorTelepon().equals(nomorTelepon)){
+                return currentUser;
+            }
+        }
+        return null; // return null if no matching user is found
     }
 
     public static void handleBuatPesanan(){
@@ -88,12 +99,58 @@ public class MainMenu {
         // TODO: Implementasi method untuk handle ketika customer ingin update status pesanan
     }
 
+    // Add new restaurant method
     public static void handleTambahRestoran(){
-        // TODO: Implementasi method untuk handle ketika admin ingin tambah restoran
+        ArrayList<Menu> menuList = new ArrayList<Menu>();
+        while (true) {
+            System.out.println("--------------Tambah Restoran----------------");
+            System.out.print("Nama: ");
+            String nama = input.nextLine();
+            if (length(nama) < 3) {
+                System.out.println("Nama Restoran tidak valid!");
+                continue;
+            }
+            for (Restaurant currentResto : restoList) {
+                if(currentResto.getNama().equals(nama)){
+                    System.out.println("Restoran dengan nama " + nama + " sudah pernah terdaftar. Mohon masukkan nama yang berbeda!");
+                    continue;
+                }
+            }
+            System.out.print("Jumlah Makanan: ");
+            int jumlahMakanan = input.nextInt();
+            input.nextLine();
+            for (int i = 0; i < jumlahMakanan; i++) {
+                String makanan = input.next();
+                String strHarga = input.next();
+                input.nextLine();
+                if (!strHarga.matches("\\d+") || strHarga.startsWith("-")) {
+                    System.out.println("Harga menu harus bilangan bulat positif!");
+                    menuList.clear();
+                    continue;
+                }
+                double harga = Double.parseDouble(strHarga);
+                Menu newMenu = new Menu(makanan, harga);
+                menuList.add(newMenu);
+            }
+            Restaurant newResto = new Restaurant(nama, menuList);
+            restoList.add(newResto);
+            System.out.println("Restaurant " + nama + " berhasil terdaftar.");
+        }
     }
 
+    // Remove restaurant method
     public static void handleHapusRestoran(){
-        // TODO: Implementasi method untuk handle ketika admin ingin tambah restoran
+        System.out.println("--------------Hapus Restoran----------------");
+        System.out.print("Nama Restoran: ");
+        String nama = input.nextLine();
+        for (Restaurant currentResto : restoList) {
+            if(currentResto.getNama().equals(nama)){
+                System.out.println("Restoran tidak terdaftar pada sistem.");
+                continue;
+            }
+            restoList.remove(currentResto);
+            System.out.println("Restoran berhasil dihapus.");
+        }
     }
 
     public static void initUser(){
