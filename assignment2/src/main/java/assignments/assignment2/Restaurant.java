@@ -1,10 +1,32 @@
 package assignments.assignment2;
 
 public class Restaurant {
-     // TODO: tambahkan attributes yang diperlukan untuk class ini
+    // Atributes
+    private String nama;
+    private ArrayList<Menu> menu;
+
+    // Constructor
     public Restaurant(String nama){
-        // TODO: buat constructor untuk class ini
+        this.nama = nama;
+        this.menu = new ArrayList<Menu>();
     }
     
-    // TODO: tambahkan methods yang diperlukan untuk class ini
+    // Setters and Getters
+    public void setNama(String nama){
+        this.nama = nama;
+    }
+
+    public String getNama(){
+        return this.nama;
+    }
+
+    public void setMenu(Menu[] menu){
+        this.menu = new ArrayList<Menu>(Arrays.asList(menu));
+    }
+
+    public ArrayList<Menu> getMenu(){
+        return this.menu;
+    }
+
+    // Methods
 }
