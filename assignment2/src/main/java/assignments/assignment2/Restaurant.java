@@ -23,8 +23,8 @@ public class Restaurant {
         return this.nama;
     }
 
-    public void setMenu(Menu[] menu){
-        this.menu = new ArrayList<Menu>(Arrays.asList(menu));
+    public void setMenu(ArrayList<Menu> menu){
+        this.menu = menu;
     }
 
     public ArrayList<Menu> getMenu(){

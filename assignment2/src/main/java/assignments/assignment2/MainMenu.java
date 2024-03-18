@@ -11,8 +11,8 @@ public class MainMenu {
     private static final Scanner input = new Scanner(System.in);
     private static ArrayList<Restaurant> restoList = new ArrayList<>();
     private static ArrayList<User> userList;
-    private static ArrayList<Order> orderList;
-    private static ArrayList<Menu> menuList;
+    private static ArrayList<Order> orderList = new ArrayList<>();
+    private static ArrayList<Menu> menuList = new ArrayList<>();
     private static User userLoggedIn;
 
     public static void main(String[] args) {
@@ -87,6 +87,7 @@ public class MainMenu {
         }
         return null; // return null if no matching user is found
     }
+
     public static void handleBuatPesanan(){
         System.out.println("--------------Buat Pesanan----------------");
         Menu[] items;
@@ -95,7 +96,7 @@ public class MainMenu {
             String nama = input.nextLine();
             Restaurant currentResto = null;
             for (Restaurant resto : restoList) {
-                if(resto.getNama().equals(nama)){
+                if(resto.getNama().equalsIgnoreCase(nama)){
                     currentResto = resto;
                     break;
                 }
@@ -147,6 +148,8 @@ public class MainMenu {
             }
             Order newOrder = new Order(orderID, tanggal, ongkir, currentResto, items);
             orderList.add(newOrder);
+            System.out.println("Pesanan dengan ID " + orderID + " diterima!");
+            return;
         }
     }
 
@@ -168,17 +171,13 @@ public class MainMenu {
                         System.out.println("Status Pengiriman: Finished");
                     }
                     System.out.println("Pesanan:");
-                    for (Menu menu : currentOrder.getItems()) {
-                        System.out.println("- " + menu.getNamaMakanan() + " " + menu.getHarga());
-                    }
                     double totalHarga = 0;
                     for (Menu menu : currentOrder.getItems()) {
-                        System.out.println("- " + menu.getNamaMakanan() + " " + menu.getHarga());
+                        System.out.println("- " + menu.getNamaMakanan() + " " + (int) menu.getHarga());
                         totalHarga += menu.getHarga();
                     }
-
                     System.out.println("Biaya Ongkos Kirim: Rp " + currentOrder.getOngkir());
-                    System.out.println("Total Biaya: Rp " + (currentOrder.getOngkir() + totalHarga));
+                    System.out.println("Total Biaya: Rp " + (int)(currentOrder.getOngkir() + totalHarga));
                     return;
                 }
             }
@@ -264,23 +263,23 @@ public class MainMenu {
     // Add new restaurant method
     public static void handleTambahRestoran(){
         System.out.println("--------------Tambah Restoran----------------");
-        ArrayList<Menu> menuList = new ArrayList<Menu>();
         while (true) {
-            boolean valid = true;
+            boolean validFormat = true;
+            boolean validInt = true;
             System.out.print("Nama: ");
             String nama = input.nextLine();
-            if (nama.length() < 3) {
+            if (nama.length() <= 3) {
                 System.out.println("Nama Restoran tidak valid!");
                 continue;
             }
             for (Restaurant currentResto : restoList) {
                 if(currentResto.getNama().equals(nama)){
                     System.out.println("Restoran dengan nama " + nama + " sudah pernah terdaftar. Mohon masukkan nama yang berbeda!");
-                    valid = false;
+                    validFormat = false;
                     break;
                 }
             }
-            if (valid == false) {
+            if (validFormat == false) {
                 continue;
             }
             System.out.print("Jumlah Makanan: ");
@@ -289,23 +288,36 @@ public class MainMenu {
             for (int i = 0; i < jumlahMakanan; i++) {
                 String makananAndHarga = input.nextLine();
                 ArrayList<String> makananAndHargaList = new ArrayList<String>(Arrays.asList(makananAndHarga.split(" ")));
-                if (makananAndHargaList.size() != 2) {
-                    System.out.println("Format makanan dan harga tidak valid!");
-                    menuList.clear();
-                    valid = false;
+                if (makananAndHargaList.size() < 2) {
+                    validFormat = false;
                     break;
                 }
                 String strHarga = makananAndHargaList.get(makananAndHargaList.size() - 1);
-                double harga = Double.parseDouble(strHarga);
+                int harga;
+                try {
+                    harga = Integer.parseInt(strHarga);
+                } catch (NumberFormatException e) {
+                    validInt = false;
+                    break;
+                }
+
                 makananAndHargaList.remove(makananAndHargaList.size() - 1);
                 String makanan = String.join(" ", makananAndHargaList);
                 Menu newMenu = new Menu(makanan, harga);
                 menuList.add(newMenu);
             }
-            if (valid == false) {
+            if (validInt == false) {
+                System.out.println("Harga menu harus bilangan bulat!");
+                menuList.clear();
+                continue;
+            }
+            if (validFormat == false) {
+                System.out.println("Format makanan dan harga tidak valid!");
+                menuList.clear();
                 continue;
             }
             Restaurant newResto = new Restaurant(nama);
+            newResto.setMenu(menuList);
             restoList.add(newResto);
             System.out.println("Restaurant " + nama + " berhasil terdaftar.");
             return;
