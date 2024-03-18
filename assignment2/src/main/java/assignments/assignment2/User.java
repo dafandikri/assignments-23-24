@@ -1,5 +1,8 @@
 package assignments.assignment2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class User {
     // Atributes
     private String nama;

@@ -1,5 +1,8 @@
 package assignments.assignment2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Restaurant {
     // Atributes
     private String nama;

@@ -1,5 +1,8 @@
 package assignments.assignment2;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class Order {
     // Atributes
     private String orderId;
@@ -59,6 +62,14 @@ public class Order {
 
     public ArrayList<Menu> getItems(){
         return this.items;
+    }
+
+    public void setOrderFinished(boolean orderFinished){
+        this.orderFinished = orderFinished;
+    }
+
+    public boolean getOrderFinished(){
+        return this.orderFinished;
     }
 
     // Methods

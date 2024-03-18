@@ -169,7 +169,7 @@ public class OrderGenerator {
                     System.out.print("Tanggal pemesanan: ");
                     String tanggalOrder = input.nextLine();
 
-                    // Validate the order date usin
+                    // Validate the order date using regex
                     if (tanggalOrder.length() != 10 || !tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")) {
                         System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
                         continue;
