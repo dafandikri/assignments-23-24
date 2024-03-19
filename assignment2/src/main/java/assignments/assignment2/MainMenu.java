@@ -1,3 +1,24 @@
+/*
+    Nama        : Erdafa Andikri
+    NPM         : 2306244993
+    Kode Asdos  : RAC
+
+    Program ini dibuat untuk memenuhi tugas TP 2 mata kuliah DDP 2.
+
+    Program ini merupakan sebuah aplikasi sederhana untuk menghasilkan Order ID dan Bill dari sebuah restoran.
+    Program ini memiliki 3 menu:
+        1. Generate Order ID
+        2. Generate Bill
+        3. Keluar
+    
+    Menu 1 digunakan untuk menghasilkan Order ID dari nama restoran, tanggal pemesanan, dan nomor telepon.
+    Menu 2 digunakan untuk menghasilkan Bill dari Order ID yang valid dan lokasi pengiriman.
+    Menu 3 digunakan untuk keluar dari program.
+
+    Program ini menggunakan metode checksum untuk memastikan validitas Order ID.
+    Program juga mempunyai error handling untuk memastikan input yang diberikan valid.
+ */
+
 package assignments.assignment2;
 
 import java.lang.reflect.Array;
@@ -464,3 +485,15 @@ public class MainMenu {
         System.out.print("Pilihan menu: ");
     }
 }
+
+//     It's The End of The Program
+//           Thank You RAC!
+//          _      _      _
+//        >(.)__ <(.)__ =(.)__
+//         (___/  (___/  (___/
+//           Here are ducks
+//    __                               _              __         
+//   / /  ___ __  _____   ___ _  ___  (_)______   ___/ /__ ___ __
+//  / _ \/ _ `/ |/ / -_) / _ `/ / _ \/ / __/ -_) / _  / _ `/ // /
+// /_//_/\_,_/|___/\__/  \_,_/ /_//_/_/\__/\__/  \_,_/\_,_/\_, / 
+//                                                        /___/  
