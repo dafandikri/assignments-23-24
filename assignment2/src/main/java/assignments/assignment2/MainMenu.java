@@ -5,18 +5,18 @@
 
     Program ini dibuat untuk memenuhi tugas TP 2 mata kuliah DDP 2.
 
-    Program ini merupakan sebuah aplikasi sederhana untuk menghasilkan Order ID dan Bill dari sebuah restoran.
-    Program ini memiliki 3 menu:
-        1. Generate Order ID
-        2. Generate Bill
-        3. Keluar
-    
-    Menu 1 digunakan untuk menghasilkan Order ID dari nama restoran, tanggal pemesanan, dan nomor telepon.
-    Menu 2 digunakan untuk menghasilkan Bill dari Order ID yang valid dan lokasi pengiriman.
-    Menu 3 digunakan untuk keluar dari program.
+    Program ini adalah program untuk memesan makanan dari restoran-restoran yang terdaftar.
+    Program ini memiliki 2 role, yaitu Customer dan Admin.
+        - Customer : Memesan makanan, mencetak bill, melihat menu, dan mengupdate status pesanan.
+        - Admin    : menambah restoran dan menghapus restoran.
 
-    Program ini menggunakan metode checksum untuk memastikan validitas Order ID.
-    Program juga mempunyai error handling untuk memastikan input yang diberikan valid.
+    Program ini memiliki 4 class, yaitu:
+        - MainMenu   : Class utama yang berisi method main dan method-method untuk menghandle input dari user.
+        - User       : Class yang berisi data-data user, seperti nama, nomor telepon, email, lokasi, dan role.
+        - Restaurant : Class yang berisi data-data restoran, seperti nama dan menu.
+        - Menu       : Class yang berisi data-data menu, seperti nama makanan dan harga.
+
+    Program ini mempunyai error handling untuk input yang tidak valid, seperti tanggal yang tidak valid, harga yang tidak valid, dan lain-lain.
  */
 
 package assignments.assignment2;
