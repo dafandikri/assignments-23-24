@@ -230,7 +230,9 @@ public class MainMenu {
             String orderID = input.nextLine();
             System.out.println("\nBill:");
             for (Order currentOrder : orderList) {
+                // If the order is found
                 if(currentOrder.getOrderId().equals(orderID)){
+                    // Print the order details
                     System.out.println("Order ID: " + currentOrder.getOrderId());
                     System.out.println("Tanggal Pemesanan: " + currentOrder.getTanggal());
                     System.out.println("Restaurant: " + currentOrder.getResto().getNama());
@@ -251,6 +253,8 @@ public class MainMenu {
                     return;
                 }
             }
+
+            // If the order is not found
             System.out.println("Order ID tidak dapat ditemukan.\n");
             continue;
         }
@@ -264,16 +268,21 @@ public class MainMenu {
             String nama = input.nextLine();
             Restaurant currentResto = null;
             for (Restaurant resto : restoList) {
+                // If the restaurant is found
                 if(resto.getNama().equals(nama)){
                     currentResto = resto;
                     break;
                 }
             }
+
+            // If the restaurant is not found
             if (currentResto == null) {
                 System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
             System.out.println("Menu:");
+
+            // Sort the menu based on price and name
             List<Menu> sortedMenu = new ArrayList<>(currentResto.getMenu());
             for (int i = 0; i < sortedMenu.size() - 1; i++) {
                 for (int j = 0; j < sortedMenu.size() - i - 1; j++) {
@@ -309,10 +318,13 @@ public class MainMenu {
             System.out.print("Order ID: ");
             String orderID = input.nextLine();
             for (Order currentOrder : orderList) {
+                // If the order is found
                 if(currentOrder.getOrderId().equals(orderID)){
                     orderIDValid = true;
                     System.out.print("Status: ");
                     String status = input.nextLine();
+
+                    // If the status is valid
                     if (status.equals("Selesai")) {
                         if (currentOrder.getOrderFinished() == false) {
                             valid = true;
@@ -320,18 +332,26 @@ public class MainMenu {
                         } else {
                             break;
                         }
+
+                    // If the status is not valid
                     } else {
                         break;
                     }
                 }
             }
+
+            // If the orderIF is not found
             if (orderIDValid == false) {
                 System.out.println("Order ID tidak dapat ditemukan.\n");
                 continue;
             }
+
+            // Print the status of the order if the status is valid
             if (valid == true) {
                 System.out.print("Status pesanan dengan ID " + orderID + " berhasil diupdate!");
                 return;
+
+            // If the status is not valid
             } else {
                 System.out.print("Status pesanan dengan ID" + orderID + " tidak berhasil diupdate!");
                 return;
@@ -348,11 +368,15 @@ public class MainMenu {
             boolean validInt = true;
             System.out.print("Nama: ");
             String nama = input.nextLine();
+
+            // If length of nama less than 4
             if (nama.length() < 4) {
                 System.out.println("Nama Restoran tidak valid!\n");
                 continue;
             }
+
             for (Restaurant currentResto : restoList) {
+                // If the resto has the same name as one in list
                 if(currentResto.getNama().equals(nama)){
                     System.out.println("Restoran dengan nama " + nama + " sudah pernah terdaftar. Mohon masukkan nama yang berbeda!\n");
                     validFormat = false;
@@ -362,6 +386,7 @@ public class MainMenu {
             if (validFormat == false) {
                 continue;
             }
+            
             System.out.print("Jumlah Makanan: ");
             int jumlahMakanan = input.nextInt();
             input.nextLine();
