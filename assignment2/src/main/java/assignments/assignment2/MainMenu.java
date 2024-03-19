@@ -10,7 +10,7 @@ import java.util.Scanner;
 public class MainMenu {
     private static final Scanner input = new Scanner(System.in);
     private static ArrayList<Restaurant> restoList = new ArrayList<>();
-    private static ArrayList<User> userList;
+    private static ArrayList<User> userList = new ArrayList<>();
     private static ArrayList<Order> orderList = new ArrayList<>();
     private static ArrayList<Menu> menuList = new ArrayList<>();
     private static User userLoggedIn;
@@ -212,7 +212,8 @@ public class MainMenu {
                 }
             });
             for (int i = 0; i < sortedMenu.size(); i++) {
-                System.out.println((i + 1) + ". " + sortedMenu.get(i).getNamaMakanan() + " " + sortedMenu.get(i).getHarga());
+                System.out.println((i + 1) + ". " + sortedMenu.get(i).getNamaMakanan() + " " + (int) sortedMenu.get(i).getHarga());
+                return;
             }
         }
     }
@@ -237,12 +238,7 @@ public class MainMenu {
                             break;
                         }
                     } else {
-                        if (currentOrder.getOrderFinished() == true) {
-                            valid = true;
-                            currentOrder.setOrderFinished(false);
-                        } else {
-                            break;
-                        }
+                        break;
                     }
                 }
             }
@@ -264,6 +260,7 @@ public class MainMenu {
     public static void handleTambahRestoran(){
         System.out.println("--------------Tambah Restoran----------------");
         while (true) {
+            menuList = new ArrayList<>();
             boolean validFormat = true;
             boolean validInt = true;
             System.out.print("Nama: ");
