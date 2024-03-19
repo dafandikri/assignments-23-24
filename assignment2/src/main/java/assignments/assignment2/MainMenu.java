@@ -280,7 +280,7 @@ public class MainMenu {
                 System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
-            System.out.println("Menu:");
+            System.out.print("Menu:");
 
             // Sort the menu based on price and name
             List<Menu> sortedMenu = new ArrayList<>(currentResto.getMenu());
@@ -303,7 +303,7 @@ public class MainMenu {
                 }
             }
             for (int i = 0; i < sortedMenu.size(); i++) {
-                System.out.println((i + 1) + ". " + sortedMenu.get(i).getNamaMakanan() + " " + (int) sortedMenu.get(i).getHarga());
+                System.out.print("\n" + (i + 1) + ". " + sortedMenu.get(i).getNamaMakanan() + " " + (int) sortedMenu.get(i).getHarga());
             }
             return;
         }
@@ -410,7 +410,7 @@ public class MainMenu {
                     harga = Integer.parseInt(strHarga);
                 } catch (NumberFormatException e) {
                     validInt = false;
-                    break;
+                    continue;
                 }
 
                 // Remove the last member of arraylist
