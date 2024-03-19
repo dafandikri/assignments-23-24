@@ -36,7 +36,7 @@ public class MainMenu {
                     System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
                     continue;
                 } else {
-                    System.out.println("Selamat datang, " + userLoggedIn.getNama() + "!");
+                    System.out.print("Selamat datang, " + userLoggedIn.getNama() + "!");
                 }
                 boolean isLoggedIn = true;
 
@@ -102,14 +102,14 @@ public class MainMenu {
                 }
             }
             if (currentResto == null) {
-                System.out.println("Restoran tidak terdaftar pada sistem.");
+                System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
             System.out.print("Tanggal Pemesanan (DD/MM/YYYY): ");
             String tanggal = input.nextLine();
             // Validate the order date using regex
             if (tanggal.length() != 10 || !tanggal.matches("\\d{2}/\\d{2}/\\d{4}")) {
-                System.out.println("Masukkan tanggal sesuai format (DD/MM/YYYY)!");
+                System.out.println("Masukkan tanggal sesuai format (DD/MM/YYYY)!\n");
                 continue;
             }
             System.out.print("Jumlah Pesanan: ");
@@ -148,7 +148,7 @@ public class MainMenu {
             }
             Order newOrder = new Order(orderID, tanggal, ongkir, currentResto, items);
             orderList.add(newOrder);
-            System.out.println("Pesanan dengan ID " + orderID + " diterima!");
+            System.out.print("Pesanan dengan ID " + orderID + " diterima!");
             return;
         }
     }
@@ -158,9 +158,9 @@ public class MainMenu {
         while (true) {
             System.out.print("Masukkan Order ID: ");
             String orderID = input.nextLine();
+            System.out.println("\nBill:");
             for (Order currentOrder : orderList) {
                 if(currentOrder.getOrderId().equals(orderID)){
-                    System.out.println("Bill:");
                     System.out.println("Order ID: " + currentOrder.getOrderId());
                     System.out.println("Tanggal Pemesanan: " + currentOrder.getTanggal());
                     System.out.println("Restaurant: " + currentOrder.getResto().getNama());
@@ -268,13 +268,13 @@ public class MainMenu {
             boolean validInt = true;
             System.out.print("Nama: ");
             String nama = input.nextLine();
-            if (nama.length() <= 3) {
-                System.out.println("Nama Restoran tidak valid!");
+            if (nama.length() < 4) {
+                System.out.println("Nama Restoran tidak valid!\n");
                 continue;
             }
             for (Restaurant currentResto : restoList) {
                 if(currentResto.getNama().equals(nama)){
-                    System.out.println("Restoran dengan nama " + nama + " sudah pernah terdaftar. Mohon masukkan nama yang berbeda!");
+                    System.out.println("Restoran dengan nama " + nama + " sudah pernah terdaftar. Mohon masukkan nama yang berbeda!\n");
                     validFormat = false;
                     break;
                 }
@@ -307,7 +307,7 @@ public class MainMenu {
                 menuList.add(newMenu);
             }
             if (validInt == false) {
-                System.out.println("Harga menu harus bilangan bulat!");
+                System.out.println("Harga menu harus bilangan bulat!\n");
                 menuList.clear();
                 continue;
             }
@@ -319,7 +319,7 @@ public class MainMenu {
             Restaurant newResto = new Restaurant(nama);
             newResto.setMenu(menuList);
             restoList.add(newResto);
-            System.out.println("Restaurant " + nama + " berhasil terdaftar.");
+            System.out.print("Restaurant " + nama + " berhasil terdaftar.");
             return;
         }
     }
@@ -333,11 +333,11 @@ public class MainMenu {
             for (Restaurant currentResto : restoList) {
                 if(currentResto.getNama().equals(nama)){
                     restoList.remove(currentResto);
-                    System.out.println("Restoran berhasil dihapus.");
+                    System.out.print("Restoran berhasil dihapus.");
                     return;
                 }
             }
-        System.out.println("Restoran tidak terdaftar pada sistem.");
+        System.out.println("Restoran tidak terdaftar pada sistem.\n");
         continue;
         }
     }
