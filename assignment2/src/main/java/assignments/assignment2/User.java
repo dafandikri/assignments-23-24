@@ -70,7 +70,4 @@ public class User {
     public ArrayList<Order> getOrderHistory(){
         return this.orderHistory;
     }
-
-    // Methods
-    
 }

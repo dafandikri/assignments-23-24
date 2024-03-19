@@ -71,6 +71,4 @@ public class Order {
     public boolean getOrderFinished(){
         return this.orderFinished;
     }
-
-    // Methods
 }

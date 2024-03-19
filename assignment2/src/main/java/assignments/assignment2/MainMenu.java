@@ -204,13 +204,24 @@ public class MainMenu {
             }
             System.out.println("Menu:");
             List<Menu> sortedMenu = new ArrayList<>(currentResto.getMenu());
-            sortedMenu.sort((menu1, menu2) -> {
-                if (menu1.getHarga() == menu2.getHarga()) {
-                    return menu1.getNamaMakanan().compareTo(menu2.getNamaMakanan());
-                } else {
-                    return Integer.compare((int) menu1.getHarga(), (int) menu2.getHarga());
+            for (int i = 0; i < sortedMenu.size() - 1; i++) {
+                for (int j = 0; j < sortedMenu.size() - i - 1; j++) {
+                    // Compare the elements
+                    Menu menu1 = sortedMenu.get(j);
+                    Menu menu2 = sortedMenu.get(j + 1);
+                    if (menu1.getHarga() > menu2.getHarga()) {
+                        // Swap the elements based on price
+                        sortedMenu.set(j, menu2);
+                        sortedMenu.set(j + 1, menu1);
+                    } else if (menu1.getHarga() == menu2.getHarga()) {
+                        if (menu1.getNamaMakanan().compareTo(menu2.getNamaMakanan()) > 0) {
+                            // Swap the elements based on name
+                            sortedMenu.set(j, menu2);
+                            sortedMenu.set(j + 1, menu1);
+                        }
+                    }
                 }
-            });
+            }
             for (int i = 0; i < sortedMenu.size(); i++) {
                 System.out.println((i + 1) + ". " + sortedMenu.get(i).getNamaMakanan() + " " + (int) sortedMenu.get(i).getHarga());
             }

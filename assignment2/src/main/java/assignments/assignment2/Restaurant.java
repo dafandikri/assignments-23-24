@@ -30,6 +30,4 @@ public class Restaurant {
     public ArrayList<Menu> getMenu(){
         return this.menu;
     }
-
-    // Methods
 }
