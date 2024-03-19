@@ -387,18 +387,25 @@ public class MainMenu {
                 continue;
             }
             
+            // Input the number of makanan
             System.out.print("Jumlah Makanan: ");
             int jumlahMakanan = input.nextInt();
             input.nextLine();
             for (int i = 0; i < jumlahMakanan; i++) {
                 String makananAndHarga = input.nextLine();
                 ArrayList<String> makananAndHargaList = new ArrayList<String>(Arrays.asList(makananAndHarga.split(" ")));
+
+                // If the length of arraylist is less than 2
                 if (makananAndHargaList.size() < 2) {
                     validFormat = false;
                     break;
                 }
+
+                // Take the last member of arraylist
                 String strHarga = makananAndHargaList.get(makananAndHargaList.size() - 1);
                 int harga;
+
+                // Change to Int from String
                 try {
                     harga = Integer.parseInt(strHarga);
                 } catch (NumberFormatException e) {
@@ -406,21 +413,30 @@ public class MainMenu {
                     break;
                 }
 
+                // Remove the last member of arraylist
                 makananAndHargaList.remove(makananAndHargaList.size() - 1);
+
+                // Combine all the member array and add to menuList
                 String makanan = String.join(" ", makananAndHargaList);
                 Menu newMenu = new Menu(makanan, harga);
                 menuList.add(newMenu);
             }
+
+            // If not Integer
             if (validInt == false) {
                 System.out.println("Harga menu harus bilangan bulat!\n");
                 menuList.clear();
                 continue;
             }
+
+            // If format is wrong
             if (validFormat == false) {
                 System.out.println("Format makanan dan harga tidak valid!\n");
                 menuList.clear();
                 continue;
             }
+
+            // Add newResto to restoList
             Restaurant newResto = new Restaurant(nama);
             newResto.setMenu(menuList);
             restoList.add(newResto);
@@ -436,12 +452,15 @@ public class MainMenu {
             System.out.print("Nama Restoran: ");
             String nama = input.nextLine();
             for (Restaurant currentResto : restoList) {
+                // If the resto has the same name as one in list, remove it
                 if(currentResto.getNama().equals(nama)){
                     restoList.remove(currentResto);
                     System.out.print("Restoran berhasil dihapus.");
                     return;
                 }
             }
+        
+        // If resto not in restoList
         System.out.println("Restoran tidak terdaftar pada sistem.\n");
         continue;
         }
