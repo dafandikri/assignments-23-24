@@ -61,14 +61,19 @@ public class MainMenu {
                 String noTelp = input.nextLine();
 
                 userLoggedIn = getUser(nama, noTelp);
+                
+                // If user is not found
                 if(userLoggedIn == null){
                     System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
                     continue;
+
+                // If user is found
                 } else {
                     System.out.print("Selamat datang, " + userLoggedIn.getNama() + "!");
                 }
                 boolean isLoggedIn = true;
 
+                // If user is a customer
                 if(userLoggedIn.role == "Customer"){
                     while (isLoggedIn){
                         menuCustomer();
@@ -84,6 +89,8 @@ public class MainMenu {
                             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
                         }
                     }
+                
+                // If user is an admin
                 }else{
                     while (isLoggedIn){
                         menuAdmin();
@@ -130,25 +137,35 @@ public class MainMenu {
             String nama = input.nextLine();
             Restaurant currentResto = null;
             for (Restaurant resto : restoList) {
+                // If the restaurant is found
                 if(resto.getNama().equalsIgnoreCase(nama)){
                     currentResto = resto;
                     break;
                 }
             }
+
+            // If the restaurant is not found
             if (currentResto == null) {
                 System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
+
+            // Input order date and validate it
             System.out.print("Tanggal Pemesanan (DD/MM/YYYY): ");
             String tanggal = input.nextLine();
+
             // Validate the order date using regex
             if (tanggal.length() != 10 || !tanggal.matches("\\d{2}/\\d{2}/\\d{4}")) {
                 System.out.println("Masukkan tanggal sesuai format (DD/MM/YYYY)!\n");
                 continue;
             }
+
+            // Input the number of items and validate it
             System.out.print("Jumlah Pesanan: ");
             String strJumlahPesanan = input.nextLine();
             int jumlahPesanan;
+
+            // Validate the number of items
             try {
                 jumlahPesanan = Integer.parseInt(strJumlahPesanan);
                 if (jumlahPesanan < 1) {
@@ -159,23 +176,31 @@ public class MainMenu {
                 continue;
             }
             boolean found = false;
+
+            // Input the items and validate them
             items = new Menu[jumlahPesanan];
             System.out.println("Order:");
             for (int i = 0; i < jumlahPesanan; i++) {
                 String makanan = input.nextLine();
                 for (Menu menu : currentResto.getMenu()) {
+                    // If the item is found
                     if(menu.getNamaMakanan().equals(makanan)){
                         items[i] = menu;
                         found = true;
                     }
                 }
             }
+
+            // If the item is not found
             if (!found) {
                 System.out.println("Mohon memesan menu yang tersedia di Restoran!\n");
                 continue;
             }
+
+            // Generate the order ID and add the order to the order list
             String orderID = generateOrderID(nama, tanggal, userLoggedIn.getNomorTelepon());
 
+            // Calculate the delivery fee based on the user's location
             int ongkir = 0;
             if (userLoggedIn.getLokasi().equals("P")) {
                 ongkir = 10000;
@@ -188,6 +213,8 @@ public class MainMenu {
             } else if (userLoggedIn.getLokasi().equals("B")) {
                 ongkir = 60000;
             }
+
+            // Create the order and add it to the order list
             Order newOrder = new Order(orderID, tanggal, ongkir, currentResto, items);
             orderList.add(newOrder);
             System.out.print("Pesanan dengan ID " + orderID + " diterima!");
