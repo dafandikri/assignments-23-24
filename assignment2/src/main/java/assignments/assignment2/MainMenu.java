@@ -134,24 +134,32 @@ public class MainMenu {
                 continue;
             }
             System.out.print("Jumlah Pesanan: ");
-            int jumlahPesanan = input.nextInt();
-            input.nextLine();
+            String strJumlahPesanan = input.nextLine();
+            int jumlahPesanan;
+            try {
+                jumlahPesanan = Integer.parseInt(strJumlahPesanan);
+                if (jumlahPesanan < 1) {
+                    throw new Exception();
+                }
+            } catch (Exception e) {
+                System.out.println("Jumlah pesanan tidak valid!\n");
+                continue;
+            }
+            boolean found = false;
             items = new Menu[jumlahPesanan];
             System.out.println("Order:");
             for (int i = 0; i < jumlahPesanan; i++) {
                 String makanan = input.nextLine();
-                boolean found = false;
                 for (Menu menu : currentResto.getMenu()) {
                     if(menu.getNamaMakanan().equals(makanan)){
                         items[i] = menu;
                         found = true;
-                        break;
                     }
                 }
-                if (!found) {
-                    System.out.println("Mohon memesan menu yang tersedia di Restoran!\n");
-                    i--; // repeat the current iteration
-                }
+            }
+            if (!found) {
+                System.out.println("Mohon memesan menu yang tersedia di Restoran!\n");
+                continue;
             }
             String orderID = generateOrderID(nama, tanggal, userLoggedIn.getNomorTelepon());
 
