@@ -29,13 +29,19 @@ import java.util.Scanner;
 // import assignments.assignment1.*;
 
 public class MainMenu {
+    // Scanner for input
     private static final Scanner input = new Scanner(System.in);
+
+    // List of restaurants, users, orders, and menus
     private static ArrayList<Restaurant> restoList = new ArrayList<>();
     private static ArrayList<User> userList = new ArrayList<>();
     private static ArrayList<Order> orderList = new ArrayList<>();
     private static ArrayList<Menu> menuList = new ArrayList<>();
+
+    // User that is currently logged in
     private static User userLoggedIn;
 
+    // Main method
     public static void main(String[] args) {
         boolean programRunning = true;
         initUser();
@@ -45,6 +51,8 @@ public class MainMenu {
             int command = input.nextInt();
             input.nextLine();
 
+            // Handle user input
+            // 1. Login
             if(command == 1){
                 System.out.println("\nSilakan Login:");
                 System.out.print("Nama: ");
@@ -90,8 +98,12 @@ public class MainMenu {
                         }
                     }
                 }
+            
+            // 2. Exit
             }else if(command == 2){
                 programRunning = false;
+
+            // Invalid command
             }else{
                 System.out.println("Perintah tidak diketahui, silakan periksa kembali.");
             }
@@ -109,6 +121,7 @@ public class MainMenu {
         return null; // return null if no matching user is found
     }
 
+    // Handle buat pesanan
     public static void handleBuatPesanan(){
         System.out.println("--------------Buat Pesanan----------------");
         Menu[] items;
@@ -182,6 +195,7 @@ public class MainMenu {
         }
     }
 
+    // Handle cetak bill
     public static void handleCetakBill(){
         System.out.println("--------------Cetak Bill----------------");
         while (true) {
@@ -215,6 +229,7 @@ public class MainMenu {
         }
     }
 
+    // Handle lihat menu
     public static void handleLihatMenu(){
         System.out.println("--------------Lihat Menu----------------");
         while (true) {
@@ -258,6 +273,7 @@ public class MainMenu {
         }
     }
 
+    // Handle update status pesanan
     public static void handleUpdateStatusPesanan(){
         System.out.println("--------------Update Status Pesanan----------------");
         while (true) {
@@ -296,7 +312,7 @@ public class MainMenu {
         }
     }
 
-    // Add new restaurant method
+    // Handle adding new restaurant
     public static void handleTambahRestoran(){
         System.out.println("--------------Tambah Restoran----------------");
         while (true) {
@@ -361,7 +377,7 @@ public class MainMenu {
         }
     }
 
-    // Remove restaurant method
+    // Handle removing restaurant
     public static void handleHapusRestoran(){
         System.out.println("--------------Hapus Restoran----------------");
         while (true) {
