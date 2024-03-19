@@ -128,7 +128,7 @@ public class MainMenu {
                     }
                 }
                 if (!found) {
-                    System.out.println("Mohon memesan menu yang tersedia di Restoran!");
+                    System.out.println("Mohon memesan menu yang tersedia di Restoran!\n");
                     i--; // repeat the current iteration
                 }
             }
@@ -177,11 +177,11 @@ public class MainMenu {
                         totalHarga += menu.getHarga();
                     }
                     System.out.println("Biaya Ongkos Kirim: Rp " + currentOrder.getOngkir());
-                    System.out.println("Total Biaya: Rp " + (int)(currentOrder.getOngkir() + totalHarga));
+                    System.out.print("Total Biaya: Rp " + (int)(currentOrder.getOngkir() + totalHarga));
                     return;
                 }
             }
-            System.out.println("Order ID tidak dapat ditemukan.");
+            System.out.println("Order ID tidak dapat ditemukan.\n");
             continue;
         }
     }
@@ -199,7 +199,7 @@ public class MainMenu {
                 }
             }
             if (currentResto == null) {
-                System.out.println("Restoran tidak terdaftar pada sistem.");
+                System.out.println("Restoran tidak terdaftar pada sistem.\n");
                 continue;
             }
             System.out.println("Menu:");
@@ -213,8 +213,8 @@ public class MainMenu {
             });
             for (int i = 0; i < sortedMenu.size(); i++) {
                 System.out.println((i + 1) + ". " + sortedMenu.get(i).getNamaMakanan() + " " + (int) sortedMenu.get(i).getHarga());
-                return;
             }
+            return;
         }
     }
 
@@ -228,7 +228,7 @@ public class MainMenu {
             for (Order currentOrder : orderList) {
                 if(currentOrder.getOrderId().equals(orderID)){
                     orderIDValid = true;
-                    System.out.println("Status: ");
+                    System.out.print("Status: ");
                     String status = input.nextLine();
                     if (status.equals("Selesai")) {
                         if (currentOrder.getOrderFinished() == false) {
@@ -243,15 +243,15 @@ public class MainMenu {
                 }
             }
             if (orderIDValid == false) {
-                System.out.println("Order ID tidak dapat ditemukan.");
+                System.out.println("Order ID tidak dapat ditemukan.\n");
                 continue;
             }
             if (valid == true) {
-                System.out.println("Status pesanan dengan ID " + orderID + " berhasil diupdate!");
+                System.out.print("Status pesanan dengan ID " + orderID + " berhasil diupdate!");
                 return;
             } else {
-                System.out.println("Status pesanan dengan ID" + orderID + "tidak berhasil diupdate!");
-                continue;
+                System.out.print("Status pesanan dengan ID" + orderID + " tidak berhasil diupdate!");
+                return;
             }
         }
     }
@@ -309,7 +309,7 @@ public class MainMenu {
                 continue;
             }
             if (validFormat == false) {
-                System.out.println("Format makanan dan harga tidak valid!");
+                System.out.println("Format makanan dan harga tidak valid!\n");
                 menuList.clear();
                 continue;
             }
