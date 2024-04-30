@@ -16,7 +16,7 @@ public class User {
     private long saldo;
 
     // Constructor
-    public User(String nama, String nomorTelepon, String email, String lokasi, String role, DepeFoodPaymentSystem payment, long saldo){
+    public User(String nama, String nomorTelepon, String email, String lokasi, String role, DepeFoodPaymentSystem payment, long saldo) {
         this.nama = nama;
         this.nomorTelepon = nomorTelepon;
         this.email = email;
