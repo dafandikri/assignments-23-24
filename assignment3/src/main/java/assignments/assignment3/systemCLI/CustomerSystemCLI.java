@@ -2,8 +2,10 @@ package assignments.assignment3.systemCLI;
 
 import java.util.Scanner;
 
+import assignments.assignment2.User;
+
 //TODO: Extends abstract class yang diberikan
-public class CustomerSystemCLI {
+public class CustomerSystemCLI extends UserSystemCLI{
 
     //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     boolean handleMenu(int choice){

@@ -5,7 +5,7 @@ import java.util.Scanner;
 
 import assignments.assignment2.Restaurant;
 import assignments.assignment2.User;
-import assignments.assignment3.LoginManager
+import assignments.assignment3.LoginManager;
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
 import assignments.assignment3.systemCLI.AdminSystemCLI;
@@ -51,11 +51,30 @@ public class MainMenu {
         System.out.print("Nomor Telepon: ");
         String noTelp = input.nextLine();
 
-        // TODO: Validasi input login
+        User userLoggedIn = getUser(nama, noTelp);
 
-        User userLoggedIn; // TODO: lengkapi
+        // If user is not found
+        if(userLoggedIn == null){
+            System.out.println("Pengguna dengan data tersebut tidak ditemukan!");
+            return;
+
+        // If user is found
+        } else {
+            System.out.print("Selamat datang, " + userLoggedIn.getNama() + "!");
+        }
+        boolean isLoggedIn = true;
 
         loginManager.getSystem(userLoggedIn.role);
+    }
+
+    // Get user by nama and nomorTelepon from userList
+    public static User getUser(String nama, String nomorTelepon){
+        for (User currentUser : userList) {
+            if(currentUser.getNama().equals(nama) && currentUser.getNomorTelepon().equals(nomorTelepon)){
+                return currentUser;
+            }
+        }
+        return null; // return null if no matching user is found
     }
 
     private static void printHeader(){
