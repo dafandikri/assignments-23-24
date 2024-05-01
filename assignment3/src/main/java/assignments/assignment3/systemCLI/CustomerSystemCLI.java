@@ -11,10 +11,9 @@ import java.util.ArrayList;
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
 
-//TODO: Extends abstract class yang diberikan
+
 public class CustomerSystemCLI extends UserSystemCLI{
 
-    //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     @Override
     boolean handleMenu(int choice){
         switch(choice){
@@ -31,7 +30,6 @@ public class CustomerSystemCLI extends UserSystemCLI{
         return true;
     }
 
-    //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     @Override
     void displayMenu() {
         System.out.println("\n--------------------------------------------");
@@ -47,7 +45,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     void handleBuatPesanan(){
-        // TODO: Implementasi method untuk handle ketika customer membuat pesanan
+        // Implementasi method untuk handle ketika customer membuat pesanan
         System.out.println("--------------Buat Pesanan----------------");
         Menu[] items;
         while (true) {
@@ -141,7 +139,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     void handleCetakBill(){
-        // TODO: Implementasi method untuk handle ketika customer ingin cetak bill
+        // Implementasi method untuk handle ketika customer ingin cetak bill
         System.out.println("--------------Cetak Bill----------------");
         while (true) {
             System.out.print("Masukkan Order ID: ");
@@ -179,7 +177,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     void handleLihatMenu(){
-        // TODO: Implementasi method untuk handle ketika customer ingin melihat menu
+        // Implementasi method untuk handle ketika customer ingin melihat menu
         System.out.println("--------------Lihat Menu----------------");
         while (true) {
             System.out.print("Nama Restoran: ");
@@ -228,7 +226,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     void handleBayarBill(){
-        // TODO: Implementasi method untuk handle ketika customer ingin melihat menu
+        // Implementasi method untuk handle ketika customer ingin melihat menu
         double totalHarga = 0; 
         int totalBiaya = 0;
         Order currentOrder = null;
@@ -321,7 +319,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     void handleUpdateStatusPesanan(){
-        // TODO: Implementasi method untuk handle ketika customer ingin update status pesanan
+        // Implementasi method untuk handle ketika customer ingin update status pesanan
         System.out.println("--------------Update Status Pesanan----------------");
         while (true) {
             boolean valid = false;
@@ -371,7 +369,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     void handleCekSaldo(){
-        // TODO: Implementasi method untuk handle ketika customer ingin mengecek saldo yang dimiliki
+        // Implementasi method untuk handle ketika customer ingin mengecek saldo yang dimiliki
         System.out.print("\nSisa saldo sebesar Rp " + (int)userLoggedIn.getSaldo());
     }
     

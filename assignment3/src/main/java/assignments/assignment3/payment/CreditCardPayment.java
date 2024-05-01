@@ -1,8 +1,7 @@
 package assignments.assignment3.payment;
 
 public class CreditCardPayment implements DepeFoodPaymentSystem{
-    //TODO: implementasikan class yang implement interface di sini
-    // Anda dibebaskan untuk membuat method yang diperlukan
+    // Represents Credit Card Payment with 2% transaction fee
     public final double TRANSACTION_FEE_PERCENTAGE = 0.02;
 
     public long countTransactionFee(long amount){

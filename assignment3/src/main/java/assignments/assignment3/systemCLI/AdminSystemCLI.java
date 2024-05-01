@@ -12,10 +12,8 @@ import java.util.Arrays;
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
 
-//TODO: Extends Abstract yang diberikan
 public class AdminSystemCLI extends UserSystemCLI{
 
-    //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     boolean handleMenu(int command){
         switch(command){
             case 1 -> handleTambahRestoran();
@@ -26,7 +24,6 @@ public class AdminSystemCLI extends UserSystemCLI{
         return true;
     }
 
-    //TODO: Tambahkan modifier dan buatlah metode ini mengoverride dari Abstract class
     @Override
     void displayMenu() {
         System.out.println("\n--------------------------------------------");
@@ -39,7 +36,7 @@ public class AdminSystemCLI extends UserSystemCLI{
     }
 
     protected void handleTambahRestoran(){
-        // TODO: Implementasi method untuk handle ketika admin ingin tambah restoran
+        // Implementasi method untuk handle ketika admin ingin tambah restoran
         System.out.println("--------------Tambah Restoran----------------");
         while (true) {
             menuList = new ArrayList<>();

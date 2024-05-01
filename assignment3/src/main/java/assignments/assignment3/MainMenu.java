@@ -1,3 +1,19 @@
+/*
+    Nama        : Erdafa Andikri
+    NPM         : 2306244993
+    Kode Asdos  : RAC
+
+    Program ini dibuat untuk memenuhi tugas TP 3 mata kuliah DDP 2.
+
+    Program ini adalah program untuk memesan makanan dari restoran-restoran yang terdaftar.
+    Program ini memiliki 2 role, yaitu Customer dan Admin.
+        - Customer : Memesan makanan, mencetak bill, melihat menu, dan mengupdate status pesanan.
+        - Admin    : menambah restoran dan menghapus restoran.
+
+    Program ini mempunyai error handling untuk input yang tidak valid, seperti tanggal yang tidak valid, harga yang tidak valid, dan lain-lain.
+ */
+
+
 package assignments.assignment3;
 
 import java.util.ArrayList;
@@ -105,8 +121,7 @@ public class MainMenu {
 
     public static void initUser(){
         userList = new ArrayList<User>();
-
-        //TODO: Adjust constructor dan atribut pada class User di Assignment 2
+        
         userList.add(new User("Thomas N", "9928765403", "thomas.n@gmail.com", "P", "Customer", new DebitPayment(), 500000));
         userList.add(new User("Sekar Andita", "089877658190", "dita.sekar@gmail.com", "B", "Customer", new CreditCardPayment(), 2000000));
         userList.add(new User("Sofita Yasusa", "084789607222", "sofita.susa@gmail.com", "T", "Customer", new DebitPayment(), 750000));
