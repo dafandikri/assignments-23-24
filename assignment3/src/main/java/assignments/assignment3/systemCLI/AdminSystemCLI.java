@@ -122,7 +122,7 @@ public class AdminSystemCLI extends UserSystemCLI{
     }
 
     protected void handleHapusRestoran(){
-        // TODO: Implementasi method untuk handle ketika admin ingin tambah restoran
+        // Implementasi method untuk handle ketika admin ingin tambah restoran
         System.out.println("--------------Hapus Restoran----------------");
         while (true) {
             System.out.print("Nama Restoran: ");
