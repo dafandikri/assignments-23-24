@@ -227,6 +227,94 @@ public class CustomerSystemCLI extends UserSystemCLI{
 
     void handleBayarBill(){
         // TODO: Implementasi method untuk handle ketika customer ingin melihat menu
+        double totalHarga = 0; 
+        int totalBiaya = 0;
+        System.out.println("--------------Bayar Bill----------------");
+        while (true) {
+            System.out.print("Masukkan Order ID: ");
+            String orderID = input.nextLine();
+            for (Order currentOrder : orderList) {
+                // If the order is found
+                if(currentOrder.getOrderId().equals(orderID)){
+                    if (currentOrder.getOrderFinished() == true){
+                        System.out.println("Pesanan dengan ID ini sudah lunas!");
+                        return;
+                    }
+
+                    // Print the order details
+                    System.out.println("\nBill:");
+                    System.out.println("Order ID: " + currentOrder.getOrderId());
+                    System.out.println("Tanggal Pemesanan: " + currentOrder.getTanggal());
+                    System.out.println("Restaurant: " + currentOrder.getResto().getNama());
+                    System.out.println("Lokasi Pengiriman: " + userLoggedIn.getLokasi());
+                    System.out.println("Status Pengiriman: Not Finished");
+                    System.out.println("Pesanan:");
+                    for (Menu menu : currentOrder.getItems()) {
+                        System.out.println("- " + menu.getNamaMakanan() + " " + (int) menu.getHarga());
+                        totalHarga += menu.getHarga();
+                    }
+                    System.out.println("Biaya Ongkos Kirim: Rp " + currentOrder.getOngkir());
+                    totalBiaya = (int)(currentOrder.getOngkir() + totalHarga);
+                    System.out.println("Total Biaya: Rp " + totalBiaya);
+                }
+            }
+
+            // If the order is not found
+            System.out.println("Order ID tidak dapat ditemukan.\n");
+            continue;
+        }
+
+        int totalBill = 0;
+        Restaurant currentResto = currentOrder.getResto();
+        System.out.print("\nOpsi Pembayaran:\n" + //
+                        "1. Credit Card\n" + //
+                        "2. Debit\n" + //
+                        "Pilihan Metode Pembayaran: ");
+        int choice = input.nextInt();
+        input.nextLine();
+        System.out.println();
+        if (choice == 1) {
+            if (userLoggedIn.payment instanceof CreditCardPayment) {
+                if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
+                    totalBill = userLoggedIn.payment.processPayment((long)totalBiaya);
+                    userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBill);
+                    currentResto.setSaldo(currentResto.getSaldo() + totalBill);
+                    currentOrder.setOrderFinished(true);
+                    System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga + " dengan biaya transaksi sebesar Rp " + (int)userLoggedIn.payment.countTransactionFee((long) totalHarga));
+                    return;
+                } else if (userLoggedIn.getSaldo() < totalBiaya) {
+                    System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
+                    return;
+                } else if (totalBiaya < 50000) {
+                    System.out.print("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
+                    return;
+                }
+            } else {
+                System.out.print("User belum memiliki metode pembayaran ini!");
+                return;
+            }
+        } else if (choice == 2) {
+                if (userLoggedIn.payment instanceof DebitPayment) {
+                    if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
+                        userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBiaya);
+                        currentResto.setSaldo(currentResto.getSaldo() + totalBiaya);
+                        currentOrder.setOrderFinished(true);
+                        System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga);
+                        return;
+                    } else if (userLoggedIn.getSaldo() < totalBiaya) {
+                        System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
+                        return;
+                    } else if (totalBiaya < 50000) {
+                        System.out.print("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
+                        return;
+                    }
+                } else {
+                    System.out.print("User belum memiliki metode pembayaran ini!");
+                }
+        } else {
+            System.out.println("Pilihan tidak valid, silakan coba lagi.");
+
+        }
     }
 
     void handleUpdateStatusPesanan(){
@@ -260,7 +348,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
                 }
             }
 
-            // If the orderIF is not found
+            // If the orderID is not found
             if (orderIDValid == false) {
                 System.out.println("Order ID tidak dapat ditemukan.\n");
                 continue;
@@ -281,6 +369,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
 
     void handleCekSaldo(){
         // TODO: Implementasi method untuk handle ketika customer ingin mengecek saldo yang dimiliki
+        System.out.print("\nSisa saldo sebesar Rp " + (int)userLoggedIn.getSaldo());
     }
     
     public CustomerSystemCLI() {
