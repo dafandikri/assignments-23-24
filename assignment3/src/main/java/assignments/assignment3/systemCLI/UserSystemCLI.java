@@ -6,6 +6,8 @@ import assignments.assignment3.Order;
 import assignments.assignment3.User;
 import java.util.List;
 import java.util.ArrayList;
+import assignments.assignment3.payment.CreditCardPayment;
+import assignments.assignment3.payment.DebitPayment;
 
 import java.util.Scanner;
 

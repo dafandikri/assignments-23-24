@@ -76,6 +76,14 @@ public class User {
         return this.orderHistory;
     }
 
+    public void setPayment(DepeFoodPaymentSystem payment){
+        this.payment = payment;
+    }
+
+    public DepeFoodPaymentSystem getPayment(){
+        return this.payment;
+    }
+
     public void setSaldo(long saldo){
         this.saldo = saldo;
     }

@@ -9,6 +9,8 @@ import assignments.assignment3.Order;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import assignments.assignment3.payment.CreditCardPayment;
+import assignments.assignment3.payment.DebitPayment;
 
 //TODO: Extends Abstract yang diberikan
 public class AdminSystemCLI extends UserSystemCLI{

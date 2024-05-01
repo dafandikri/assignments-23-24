@@ -8,6 +8,7 @@ public class CreditCardPayment implements DepeFoodPaymentSystem{
     public long countTransactionFee(long amount){
         return (long) (amount * TRANSACTION_FEE_PERCENTAGE);
     };
+
     public long processPayment(long amount){
         return amount + countTransactionFee(amount);
     };

@@ -8,6 +8,8 @@ import assignments.assignment3.Restaurant;
 import assignments.assignment3.Order;
 import java.util.List;
 import java.util.ArrayList;
+import assignments.assignment3.payment.CreditCardPayment;
+import assignments.assignment3.payment.DebitPayment;
 
 //TODO: Extends abstract class yang diberikan
 public class CustomerSystemCLI extends UserSystemCLI{
@@ -229,13 +231,15 @@ public class CustomerSystemCLI extends UserSystemCLI{
         // TODO: Implementasi method untuk handle ketika customer ingin melihat menu
         double totalHarga = 0; 
         int totalBiaya = 0;
+        Order currentOrder = null;
         System.out.println("--------------Bayar Bill----------------");
         while (true) {
             System.out.print("Masukkan Order ID: ");
             String orderID = input.nextLine();
-            for (Order currentOrder : orderList) {
+            for (Order order : orderList) {
                 // If the order is found
                 if(currentOrder.getOrderId().equals(orderID)){
+                    currentOrder = order;
                     if (currentOrder.getOrderFinished() == true){
                         System.out.println("Pesanan dengan ID ini sudah lunas!");
                         return;
@@ -256,64 +260,63 @@ public class CustomerSystemCLI extends UserSystemCLI{
                     System.out.println("Biaya Ongkos Kirim: Rp " + currentOrder.getOngkir());
                     totalBiaya = (int)(currentOrder.getOngkir() + totalHarga);
                     System.out.println("Total Biaya: Rp " + totalBiaya);
+                    int totalBill = 0;
+                    Restaurant currentResto = currentOrder.getResto();
+                    System.out.print("\nOpsi Pembayaran:\n" + //
+                                    "1. Credit Card\n" + //
+                                    "2. Debit\n" + //
+                                    "Pilihan Metode Pembayaran: ");
+                    int choice = input.nextInt();
+                    input.nextLine();
+                    System.out.println();
+                    if (choice == 1) {
+                        if (userLoggedIn.getPayment() instanceof CreditCardPayment) {
+                            if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
+                                CreditCardPayment payment = (CreditCardPayment) userLoggedIn.getPayment();
+                                totalBill = (int) payment.processPayment(totalBiaya);
+                                userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBill);
+                                currentResto.setSaldo(currentResto.getSaldo() + totalBill);
+                                currentOrder.setOrderFinished(true);
+                                System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga + " dengan biaya transaksi sebesar Rp " + (int) payment.countTransactionFee((long) totalHarga));
+                                return;
+                            } else if (userLoggedIn.getSaldo() < totalBiaya) {
+                                System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
+                                return;
+                            } else if (totalBiaya < 50000) {
+                                System.out.print("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
+                                return;
+                            }
+                        } else {
+                            System.out.print("User belum memiliki metode pembayaran ini!");
+                            return;
+                        }
+                    } else if (choice == 2) {
+                            if (userLoggedIn.getPayment() instanceof DebitPayment) {
+                                if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
+                                    userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBiaya);
+                                    currentResto.setSaldo(currentResto.getSaldo() + totalBiaya);
+                                    currentOrder.setOrderFinished(true);
+                                    System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga);
+                                    return;
+                                } else if (userLoggedIn.getSaldo() < totalBiaya) {
+                                    System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
+                                    return;
+                                } else if (totalBiaya < 50000) {
+                                    System.out.print("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
+                                    return;
+                                }
+                            } else {
+                                System.out.print("User belum memiliki metode pembayaran ini!");
+                            }
+                    } else {
+                        System.out.println("Pilihan tidak valid, silakan coba lagi.");
+                    }
                 }
             }
 
             // If the order is not found
             System.out.println("Order ID tidak dapat ditemukan.\n");
-            continue;
-        }
-
-        int totalBill = 0;
-        Restaurant currentResto = currentOrder.getResto();
-        System.out.print("\nOpsi Pembayaran:\n" + //
-                        "1. Credit Card\n" + //
-                        "2. Debit\n" + //
-                        "Pilihan Metode Pembayaran: ");
-        int choice = input.nextInt();
-        input.nextLine();
-        System.out.println();
-        if (choice == 1) {
-            if (userLoggedIn.payment instanceof CreditCardPayment) {
-                if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
-                    totalBill = userLoggedIn.payment.processPayment((long)totalBiaya);
-                    userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBill);
-                    currentResto.setSaldo(currentResto.getSaldo() + totalBill);
-                    currentOrder.setOrderFinished(true);
-                    System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga + " dengan biaya transaksi sebesar Rp " + (int)userLoggedIn.payment.countTransactionFee((long) totalHarga));
-                    return;
-                } else if (userLoggedIn.getSaldo() < totalBiaya) {
-                    System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
-                    return;
-                } else if (totalBiaya < 50000) {
-                    System.out.print("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
-                    return;
-                }
-            } else {
-                System.out.print("User belum memiliki metode pembayaran ini!");
-                return;
-            }
-        } else if (choice == 2) {
-                if (userLoggedIn.payment instanceof DebitPayment) {
-                    if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
-                        userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBiaya);
-                        currentResto.setSaldo(currentResto.getSaldo() + totalBiaya);
-                        currentOrder.setOrderFinished(true);
-                        System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga);
-                        return;
-                    } else if (userLoggedIn.getSaldo() < totalBiaya) {
-                        System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
-                        return;
-                    } else if (totalBiaya < 50000) {
-                        System.out.print("Jumlah pesanan < 50000 mohon menggunakan metode pembayaran yang lain");
-                        return;
-                    }
-                } else {
-                    System.out.print("User belum memiliki metode pembayaran ini!");
-                }
-        } else {
-            System.out.println("Pilihan tidak valid, silakan coba lagi.");
-
+            return;
         }
     }
 
