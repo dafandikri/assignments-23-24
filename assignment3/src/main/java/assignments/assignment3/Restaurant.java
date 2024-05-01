@@ -1,4 +1,4 @@
-package assignments.assignment2;
+package assignments.assignment3;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -30,5 +30,13 @@ public class Restaurant {
 
     public ArrayList<Menu> getMenu(){
         return this.menu;
+    }
+
+    public void setSaldo(long saldo){
+        this.saldo = saldo;
+    }
+
+    public long getSaldo(){
+        return this.saldo;
     }
 }

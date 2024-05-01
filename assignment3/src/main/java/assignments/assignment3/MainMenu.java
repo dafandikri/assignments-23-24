@@ -3,11 +3,12 @@ package assignments.assignment3;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-import assignments.assignment2.Restaurant;
-import assignments.assignment2.User;
+import assignments.assignment3.Restaurant;
+import assignments.assignment3.User;
 import assignments.assignment3.LoginManager;
 import assignments.assignment3.payment.CreditCardPayment;
 import assignments.assignment3.payment.DebitPayment;
+import assignments.assignment3.systemCLI.UserSystemCLI;
 import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
 
@@ -24,6 +25,7 @@ public class MainMenu {
 
     public static void main(String[] args) {
         MainMenu mainMenu = new MainMenu(new Scanner(System.in), new LoginManager(new AdminSystemCLI(), new CustomerSystemCLI()));
+        initUser();
         mainMenu.run();
     }
 
@@ -64,7 +66,11 @@ public class MainMenu {
         }
         boolean isLoggedIn = true;
 
-        loginManager.getSystem(userLoggedIn.role);
+        UserSystemCLI system = loginManager.getSystem(userLoggedIn.role);
+        if (system instanceof CustomerSystemCLI) {
+            ((CustomerSystemCLI) system).setUserLoggedIn(userLoggedIn);
+        }
+        system.run();
     }
 
     // Get user by nama and nomorTelepon from userList
@@ -88,7 +94,7 @@ public class MainMenu {
     }
 
     private static void startMenu(){
-        System.out.println("Selamat datang di DepeFood!");
+        System.out.println("\nSelamat datang di DepeFood!");
         System.out.println("--------------------------------------------");
         System.out.println("Pilih menu:");
         System.out.println("1. Login");
