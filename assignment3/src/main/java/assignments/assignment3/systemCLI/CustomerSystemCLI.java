@@ -238,7 +238,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
             String orderID = input.nextLine();
             for (Order order : orderList) {
                 // If the order is found
-                if(currentOrder.getOrderId().equals(orderID)){
+                if(order.getOrderId().equals(orderID)){
                     currentOrder = order;
                     if (currentOrder.getOrderFinished() == true){
                         System.out.println("Pesanan dengan ID ini sudah lunas!");
@@ -277,7 +277,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
                                 userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBill);
                                 currentResto.setSaldo(currentResto.getSaldo() + totalBill);
                                 currentOrder.setOrderFinished(true);
-                                System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga + " dengan biaya transaksi sebesar Rp " + (int) payment.countTransactionFee((long) totalHarga));
+                                System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalBiaya + " dengan biaya transaksi sebesar Rp " + (int) payment.countTransactionFee((long) totalBiaya));
                                 return;
                             } else if (userLoggedIn.getSaldo() < totalBiaya) {
                                 System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
