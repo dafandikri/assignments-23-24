@@ -340,7 +340,7 @@ public class MainMenu {
                 }
             }
 
-            // If the orderIF is not found
+            // If the orderID is not found
             if (orderIDValid == false) {
                 System.out.println("Order ID tidak dapat ditemukan.\n");
                 continue;

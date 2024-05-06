@@ -10,6 +10,11 @@
         - Customer : Memesan makanan, mencetak bill, melihat menu, dan mengupdate status pesanan.
         - Admin    : menambah restoran dan menghapus restoran.
 
+    Program ini memiliki 2 jenis pembayaran, yaitu DebitPayment dan CreditCardPayment.
+    - DebitPayment      : Pembayaran menggunakan debit.
+    - CreditCardPayment : Pembayaran menggunakan kartu kredit.
+    
+
     Program ini mempunyai error handling untuk input yang tidak valid, seperti tanggal yang tidak valid, harga yang tidak valid, dan lain-lain.
  */
 
