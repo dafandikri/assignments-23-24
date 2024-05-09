@@ -31,6 +31,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
     }
 
     @Override
+    @Override
     void displayMenu() {
         System.out.println("\n--------------------------------------------");
         System.out.println("Pilih menu:");

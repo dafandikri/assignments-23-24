@@ -11,6 +11,11 @@ import assignments.assignment3.payment.DebitPayment;
 
 import java.util.Scanner;
 
+import assignments.assignment3.Menu;
+import assignments.assignment3.Order;
+import assignments.assignment3.Restaurant;
+import assignments.assignment3.User;
+
 public abstract class UserSystemCLI {
     protected static List<Restaurant> restoList;
     protected static User userLoggedIn;
@@ -19,6 +24,10 @@ public abstract class UserSystemCLI {
 
 
     protected Scanner input;
+    protected ArrayList<Restaurant> restoList;
+    protected ArrayList<User> userList;
+    protected User userLoggedIn;
+
     public void run() {
         boolean isLoggedIn = true;
         while (isLoggedIn) {
@@ -28,7 +37,9 @@ public abstract class UserSystemCLI {
             isLoggedIn = handleMenu(command);
         }
     }
+
     abstract void displayMenu();
+
     abstract boolean handleMenu(int command);
 
     public static String generateOrderID(String namaRestoran, String tanggalOrder, String noTelepon) {

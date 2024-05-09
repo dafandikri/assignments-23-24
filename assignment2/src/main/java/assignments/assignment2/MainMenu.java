@@ -20,13 +20,10 @@
  */
 
 package assignments.assignment2;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Scanner;
-// import assignments.assignment1.*;
 
 public class MainMenu {
     // Scanner for input
@@ -43,6 +40,8 @@ public class MainMenu {
 
     // Main method
     public static void main(String[] args) {
+        restoList = new ArrayList<>();
+        initUser();
         boolean programRunning = true;
         initUser();
         while(programRunning){
@@ -92,6 +91,7 @@ public class MainMenu {
                 
                 // If user is an admin
                 }else{
+                    System.out.println("Selamat Datang "+userLoggedIn.getNama()+"!");
                     while (isLoggedIn){
                         menuAdmin();
                         int commandAdmin = input.nextInt();

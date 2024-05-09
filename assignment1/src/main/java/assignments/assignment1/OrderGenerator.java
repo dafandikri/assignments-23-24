@@ -22,15 +22,18 @@
 package assignments.assignment1;
 
 import java.util.Scanner;
+import java.text.DecimalFormat;
+import java.text.DecimalFormatSymbols;
 
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
+    private static final int ORDER_ID_LENGTH = 16;
 
     // Method to show the title
     public static void showTitle(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
-        System.out.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
+        System.err.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
         System.out.println("||| | |/ ._>| . \\/ ._>| _>/ . \\/ . \\/ . |||");
         System.out.println("|||___/\\___.|  _/\\___.|_| \\___/\\___/\\___|||");
         System.out.println("||          |_|                          ||");
@@ -40,7 +43,7 @@ public class OrderGenerator {
     // Method to show the menu
     public static void showMenu() {
         System.out.println("Pilih menu:");
-        System.out.println("1. Generate Order ID");
+        System.err.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
     }

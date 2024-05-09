@@ -1,6 +1,6 @@
 package assignments.assignment3.systemCLI;
 
-import java.util.Scanner;
+import java.util.Arrays;
 
 import assignments.assignment3.User;
 import assignments.assignment3.Menu;
@@ -18,12 +18,15 @@ public class AdminSystemCLI extends UserSystemCLI{
         switch(command){
             case 1 -> handleTambahRestoran();
             case 2 -> handleHapusRestoran();
-            case 3 -> {return false;}
+            case 3 -> {
+                return false;
+            }
             default -> System.out.println("Perintah tidak diketahui, silakan coba kembali");
         }
         return true;
     }
 
+    @Override
     @Override
     void displayMenu() {
         System.out.println("\n--------------------------------------------");
