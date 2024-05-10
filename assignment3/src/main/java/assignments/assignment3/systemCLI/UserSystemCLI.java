@@ -17,12 +17,8 @@ import assignments.assignment3.Restaurant;
 import assignments.assignment3.User;
 
 public abstract class UserSystemCLI {
-    protected static List<Restaurant> restoList;
-    protected static User userLoggedIn;
     protected static List<Order> orderList;
     protected static ArrayList<Menu> menuList;
-
-
     protected Scanner input;
     protected ArrayList<Restaurant> restoList;
     protected ArrayList<User> userList;

@@ -17,10 +17,8 @@ public class LoginManager {
     public UserSystemCLI getSystem(String role){
         if(role.equals("Customer")){
             return customerSystem;
-        }else{
+        } else {
             return adminSystem;
         }
-
-        return adminSystem;
     }
 }

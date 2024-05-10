@@ -33,7 +33,7 @@ public class OrderGenerator {
     public static void showTitle(){
         System.out.println(">>=======================================<<");
         System.out.println("|| ___                 ___             _ ||");
-        System.err.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
+        System.out.println("||| . \\ ___  ___  ___ | __>___  ___  _| |||");
         System.out.println("||| | |/ ._>| . \\/ ._>| _>/ . \\/ . \\/ . |||");
         System.out.println("|||___/\\___.|  _/\\___.|_| \\___/\\___/\\___|||");
         System.out.println("||          |_|                          ||");
