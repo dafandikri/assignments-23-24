@@ -14,7 +14,7 @@ import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
 import assignments.assignment3.systemCLI.UserSystemCLI;
 
-public class DepeFood extends MainMenu{
+public class DepeFood{
     public static ArrayList<Restaurant> restoList;
     public static List<User> userList = new ArrayList<>();
 
