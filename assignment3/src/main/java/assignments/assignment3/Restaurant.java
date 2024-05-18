@@ -39,4 +39,8 @@ public class Restaurant {
     public long getSaldo(){
         return this.saldo;
     }
+
+    public void addMenu(Menu menu){
+        this.menu.add(menu);
+    }
 }

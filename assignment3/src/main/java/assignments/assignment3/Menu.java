@@ -27,4 +27,8 @@ public class Menu {
     public double getHarga(){
         return this.harga;
     }
+
+    public String getNama() {
+        return namaMakanan;
+    }
 }

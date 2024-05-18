@@ -76,11 +76,11 @@ public class User {
         return this.orderHistory;
     }
 
-    public void setPayment(DepeFoodPaymentSystem payment){
+    public void setPaymentSystem(DepeFoodPaymentSystem payment){
         this.payment = payment;
     }
 
-    public DepeFoodPaymentSystem getPayment(){
+    public DepeFoodPaymentSystem getPaymentSystem(){
         return this.payment;
     }
 
@@ -90,5 +90,9 @@ public class User {
 
     public long getSaldo(){
         return this.saldo;
+    }
+
+    public void addOrderHistory(Order order){
+        this.orderHistory.add(order);
     }
 }

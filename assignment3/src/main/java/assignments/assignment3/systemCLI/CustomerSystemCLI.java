@@ -268,9 +268,9 @@ public class CustomerSystemCLI extends UserSystemCLI{
                     input.nextLine();
                     System.out.println();
                     if (choice == 1) {
-                        if (userLoggedIn.getPayment() instanceof CreditCardPayment) {
+                        if (userLoggedIn.getPaymentSystem() instanceof CreditCardPayment) {
                             if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
-                                CreditCardPayment payment = (CreditCardPayment) userLoggedIn.getPayment();
+                                CreditCardPayment payment = (CreditCardPayment) userLoggedIn.getPaymentSystem();
                                 totalBill = (int) payment.processPayment(totalBiaya);
                                 userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBill);
                                 currentResto.setSaldo(currentResto.getSaldo() + totalBill);
@@ -289,7 +289,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
                             return;
                         }
                     } else if (choice == 2) {
-                            if (userLoggedIn.getPayment() instanceof DebitPayment) {
+                            if (userLoggedIn.getPaymentSystem() instanceof DebitPayment) {
                                 if (totalBiaya >= 50000 && userLoggedIn.getSaldo() >= totalBiaya) {
                                     userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBiaya);
                                     currentResto.setSaldo(currentResto.getSaldo() + totalBiaya);

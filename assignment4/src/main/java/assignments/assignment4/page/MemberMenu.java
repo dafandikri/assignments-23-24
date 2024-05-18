@@ -16,9 +16,7 @@ public abstract class MemberMenu {
         alert.showAndWait();
     }
 
-    public Scene getScene(){
-        return this.scene;
-    }
+    abstract public Scene getScene();
 
     protected void refresh(){
         //TODO: Implemenetasi method ini untuk merefresh data yang dimiliki aplikasi

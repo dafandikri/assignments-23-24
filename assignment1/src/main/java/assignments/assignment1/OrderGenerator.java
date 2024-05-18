@@ -27,7 +27,6 @@ import java.text.DecimalFormatSymbols;
 
 public class OrderGenerator {
     private static final Scanner input = new Scanner(System.in);
-    private static final int ORDER_ID_LENGTH = 16;
 
     // Method to show the title
     public static void showTitle(){
@@ -43,7 +42,7 @@ public class OrderGenerator {
     // Method to show the menu
     public static void showMenu() {
         System.out.println("Pilih menu:");
-        System.err.println("1. Generate Order ID");
+        System.out.println("1. Generate Order ID");
         System.out.println("2. Generate Bill");
         System.out.println("3. Keluar");
     }
@@ -141,6 +140,27 @@ public class OrderGenerator {
         return "Bill:\nOrder ID: " + OrderID + "\nTanggal Pemesanan: " + tanggalOrder + "\nLokasi Pengiriman: " + lokasi + "\nBiaya Ongkos Kirim: " + biayaKirim + "\n";
     }
 
+    public static boolean validateDate(String tanggalOrder) {
+        return tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}");
+    }
+
+    public static int calculateDeliveryCost(String location) {
+        switch (location) {
+            case "P":
+                return 10000;
+            case "U":
+                return 20000;
+            case "T":
+                return 35000;
+            case "S":
+                return 40000;
+            case "B":
+                return 60000;
+            default:
+                return 0;
+        }
+    }
+
     // Main method
     public static void main(String[] args) {
         showTitle();
@@ -173,7 +193,7 @@ public class OrderGenerator {
                     String tanggalOrder = input.nextLine();
 
                     // Validate the order date using regex
-                    if (tanggalOrder.length() != 10 || !tanggalOrder.matches("\\d{2}/\\d{2}/\\d{4}")) {
+                    if (tanggalOrder.length() != 10 || !validateDate(tanggalOrder)) {
                         System.out.println("Tanggal Pemesanan dalam format DD/MM/YYYY!\n");
                         continue;
                     }

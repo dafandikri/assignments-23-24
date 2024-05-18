@@ -15,6 +15,11 @@ import assignments.assignment3.payment.DepeFoodPaymentSystem;
 import assignments.assignment3.systemCLI.AdminSystemCLI;
 import assignments.assignment3.systemCLI.CustomerSystemCLI;
 import assignments.assignment3.systemCLI.UserSystemCLI;
+import assignments.assignment3.MainMenu;
+import assignments.assignment3.Menu;
+import assignments.assignment3.Order;
+import assignments.assignment3.Restaurant;
+import assignments.assignment3.User;
 
 public class DepeFood {
     private static ArrayList<User> userList;
@@ -187,7 +192,7 @@ public class DepeFood {
             long amountToPay = 0;
 
             try {
-                amountToPay = paymentSystem.processPayment(userLoggedIn.getSaldo(), (long) order.getTotalHarga());
+                amountToPay = paymentSystem.processPayment((long) order.getTotalHarga());
             } catch (Exception e) {
                 System.out.println(e.getMessage());
                 System.out.println();

@@ -71,4 +71,12 @@ public class Order {
     public boolean getOrderFinished(){
         return this.orderFinished;
     }
+    
+    public double getTotalHarga() {
+        double totalHarga = 0;
+        for (Menu item : items) {
+            totalHarga += item.getHarga();
+        }
+        return totalHarga + ongkir;
+    }
 }
