@@ -224,6 +224,21 @@ public class CustomerMenu extends MemberMenu{
         hboxButton.setAlignment(Pos.CENTER);
         grid.add(hboxButton, 0, 3, 2, 1);
 
+        // Create the Bayar Bill button
+        Button bayarBillButton = new Button("Pay Bill");
+        bayarBillButton.setStyle("-fx-background-color: #D7ECFF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;");
+        bayarBillButton.setOnMouseExited(e -> bayarBillButton.setStyle("-fx-background-color: #D7ECFF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;"));
+        bayarBillButton.setOnMouseEntered(e -> bayarBillButton.setStyle("-fx-background-color: #BDE0FF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;"));
+        bayarBillButton.setCursor(Cursor.HAND);
+        bayarBillButton.setOnAction(e -> {
+            stage.setScene(createBayarBillForm());
+        });
+
+        // Add the button to the bottom right corner of the grid
+        grid.add(bayarBillButton, 1, 4);
+        GridPane.setHalignment(bayarBillButton, HPos.RIGHT);
+        GridPane.setValignment(bayarBillButton, VPos.BOTTOM);
+
         // Create a Rectangle with a DropShadow effect
         Rectangle rectangle = new Rectangle(330, 300); // Adjust size as needed
         rectangle.setFill(Color.WHITE);
