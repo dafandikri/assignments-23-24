@@ -302,31 +302,32 @@ public class AdminMenu extends MemberMenu{
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-    
+
         Label label = new Label("View Menu");
         label.setFont(Font.font("Avenir", FontWeight.NORMAL, 20));
         restaurantComboBox = new ComboBox<>();
         restaurantComboBox.setPrefWidth(200);
         restaurantComboBox.getItems().addAll(DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList()));
         restaurantComboBox.setPromptText("Select Restaurant");
+
+        ListView<String> menuItemsListView = new ListView<>();
+
         restaurantComboBox.setOnAction(e -> {
             Restaurant selectedRestaurant = DepeFood.findRestaurant(restaurantComboBox.getValue());
             if (selectedRestaurant != null) {
                 menuItemsListView.setItems(FXCollections.observableArrayList(selectedRestaurant.getMenu().stream().map(menu -> menu.getNama() + " - Rp " + menu.getHarga()).collect(Collectors.toList())));
             }
         });
-    
-        ListView<String> menuItemsListView = new ListView<>();
+
         Button backButton =  new Button("Back");
         backButton.setOnAction(e -> stage.setScene(getScene()));
-    
+
         grid.add(label, 0, 0);
         grid.add(restaurantComboBox, 0, 1);
         grid.add(menuItemsListView, 0, 2);
         grid.add(backButton, 0, 3);
         return new Scene(new StackPane(grid), 400, 600);
     }
-
     private void handleTambahRestoran(String nama) {
         //TODO: Implementasi validasi isian nama Restoran
         String validName = DepeFood.getValidRestaurantName(nama);

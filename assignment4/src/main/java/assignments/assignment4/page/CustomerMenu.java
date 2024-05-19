@@ -40,6 +40,10 @@ import javafx.scene.control.TextArea;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.beans.EventHandler;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import javafx.scene.control.DatePicker;
+import java.time.format.DateTimeFormatter;
 import java.time.LocalTime;
 
 import assignments.assignment3.DepeFood;
@@ -132,14 +136,14 @@ public class CustomerMenu extends MemberMenu{
         grid.add(hboxLogout, 0, 0, 2, 1);
         GridPane.setHalignment(hboxLogout, HPos.RIGHT);
 
-        Image imageViewMenu = new Image(getClass().getResourceAsStream("/viewmenu.png"));
+        Image imageViewMenu = new Image(getClass().getResourceAsStream("/makeorder.png"));
         ImageView imageViewViewMenu = new ImageView(imageViewMenu);
-        imageViewViewMenu.setFitWidth(15);
+        imageViewViewMenu.setFitWidth(30);
         imageViewViewMenu.setPreserveRatio(true);
 
         Button seeResto = new Button("Make Order");
         seeResto.setGraphic(imageViewViewMenu);
-        seeResto.setPrefSize(250, 80);
+        seeResto.setPrefSize(290, 60);
         seeResto.setStyle("-fx-background-color: #D7ECFF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;");
         seeResto.setOnMouseExited(e -> seeResto.setStyle("-fx-background-color: #D7ECFF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;"));
         seeResto.setOnMouseEntered(e -> seeResto.setStyle("-fx-background-color: #BDE0FF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;"));
@@ -154,15 +158,15 @@ public class CustomerMenu extends MemberMenu{
         GridPane.setHalignment(seeResto, HPos.CENTER);
         
         // Create the image view
-        Image imageAddResto = new Image(getClass().getResourceAsStream("/addresto.png"));
+        Image imageAddResto = new Image(getClass().getResourceAsStream("/printbill.png"));
         ImageView imageViewAddResto = new ImageView(imageAddResto);
-        imageViewAddResto.setFitWidth(15);
+        imageViewAddResto.setFitWidth(30);
         imageViewAddResto.setPreserveRatio(true);
 
         Label labelResto = new Label("Print Bill");
         labelResto.setWrapText(true); // This will enable text wrapping
         labelResto.setGraphic(imageViewAddResto);
-        labelResto.setContentDisplay(ContentDisplay.TOP);
+        labelResto.setContentDisplay(ContentDisplay.RIGHT);
         labelResto.setTextAlignment(TextAlignment.CENTER);
         labelResto.setGraphicTextGap(10); // Adjust this value as needed
         labelResto.setAlignment(Pos.CENTER);
@@ -172,7 +176,7 @@ public class CustomerMenu extends MemberMenu{
 
         Button addResto = new Button();
         addResto.setGraphic(vboxResto); // Set the VBox as the graphic
-        addResto.setPrefSize(120, 30);
+        addResto.setPrefSize(140, 30);
         addResto.setContentDisplay(ContentDisplay.CENTER);
         addResto.setStyle("-fx-background-color: #D7ECFF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;");
         addResto.setTextAlignment(TextAlignment.CENTER);
@@ -185,16 +189,16 @@ public class CustomerMenu extends MemberMenu{
         addResto.setAlignment(Pos.CENTER);
 
         // Create the image view
-        Image imageAddMenu = new Image(getClass().getResourceAsStream("/addmenu.png"));
+        Image imageAddMenu = new Image(getClass().getResourceAsStream("/checkbalance.png"));
         ImageView imageViewAddMenu = new ImageView(imageAddMenu);
-        imageViewAddMenu.setFitWidth(15);
+        imageViewAddMenu.setFitWidth(20);
         imageViewAddMenu.setPreserveRatio(true);
 
         // Create the text
         Label labelMenu = new Label("Check Balance");
         labelMenu.setWrapText(true); // This will enable text wrapping
         labelMenu.setGraphic(imageViewAddMenu);
-        labelMenu.setContentDisplay(ContentDisplay.TOP);
+        labelMenu.setContentDisplay(ContentDisplay.LEFT);
         labelMenu.setTextAlignment(TextAlignment.CENTER);
         labelMenu.setGraphicTextGap(10); // Adjust this value as needed
         labelMenu.setAlignment(Pos.CENTER); // Center the label
@@ -204,7 +208,7 @@ public class CustomerMenu extends MemberMenu{
 
         Button addMenu = new Button();
         addMenu.setGraphic(vboxMenu); // Set the VBox as the graphic
-        addMenu.setPrefSize(120,30);
+        addMenu.setPrefSize(140,30);
         addMenu.setContentDisplay(ContentDisplay.CENTER);
         addMenu.setStyle("-fx-background-color: #D7ECFF; -fx-background-radius: 8; -fx-border-width: 3px; -fx-border-color: #BDE0FF; -fx-border-radius: 8; -fx-font-weight: bold;");
         addMenu.setTextAlignment(TextAlignment.CENTER);
@@ -221,7 +225,7 @@ public class CustomerMenu extends MemberMenu{
         grid.add(hboxButton, 0, 3, 2, 1);
 
         // Create a Rectangle with a DropShadow effect
-        Rectangle rectangle = new Rectangle(300, 300); // Adjust size as needed
+        Rectangle rectangle = new Rectangle(330, 300); // Adjust size as needed
         rectangle.setFill(Color.WHITE);
         rectangle.setArcWidth(30.0); // Set corner radius
         rectangle.setArcHeight(30.0); // Set corner radius
@@ -241,48 +245,138 @@ public class CustomerMenu extends MemberMenu{
     }
 
     private Scene createTambahPesananForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page tambah pesanan
-        VBox menuLayout = new VBox(10);
-    
-        return new Scene(menuLayout, 400, 600);
+        VBox layout = new VBox(20);
+        layout.setPadding(new Insets(20));
+
+        Label heading = new Label("Make a New Order");
+        heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        // Dropdown for selecting a restaurant
+        ComboBox<String> restaurantDropdown = new ComboBox<>();
+        restaurantDropdown.setPromptText("Select a restaurant");
+
+        // Populate the restaurantDropdown with restaurant names
+        List<String> restaurantNames = DepeFood.getRestoList().stream().map(Restaurant::getNama).collect(Collectors.toList());
+        restaurantDropdown.getItems().addAll(restaurantNames);
+
+        // DatePicker for selecting a date
+        DatePicker datePicker = new DatePicker();
+        datePicker.setValue(LocalDate.now()); // default to today's date
+
+        // List for menu items
+        ListView<String> menuListView = new ListView<>();
+
+        restaurantDropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
+            menuListView.getItems().clear();
+            DepeFood.getRestoList().stream()
+                .filter(r -> r.getNama().equals(newSelection))
+                .findFirst()
+                .ifPresent(r -> menuListView.getItems().addAll(r.getMenu().stream().map(menu -> menu.getNama() + " - Rp " + menu.getHarga()).collect(Collectors.toList())));
+        });
+
+        Button submitButton = new Button("Submit Order");
+        submitButton.setOnAction(event -> {
+            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+            String formattedDate = datePicker.getValue().format(formatter);
+            List<String> selectedItems = menuListView.getSelectionModel().getSelectedItems().stream()
+                .map(item -> item.split(" - Rp ")[0]) // split the string on " - Rp " and take the first part
+                .collect(Collectors.toList());
+            handleBuatPesanan(
+                restaurantDropdown.getValue(),
+                formattedDate,
+                selectedItems
+            );
+        });
+
+        Button backButton = new Button("Back");
+        backButton.setOnAction(event -> stage.setScene(scene));
+
+        layout.getChildren().addAll(heading, restaurantDropdown, datePicker, menuListView, submitButton, backButton);
+        return new Scene(layout, 400, 600);
     }
 
-    private Scene createBillPrinter(){
-        // TODO: Implementasikan method ini untuk menampilkan page cetak bill
+    private Scene createBillPrinter() {
+        TextField orderIdField = new TextField();
+        orderIdField.setPromptText("Enter Order ID");
 
-        return null;
+        // Define billArea
+        TextArea billArea = new TextArea();
+        billArea.setEditable(false);
+        billArea.setPrefHeight(200);
+
+        VBox layout = new VBox(20);
+        layout.setPadding(new Insets(20));
+
+        Label heading = new Label("Print Bill");
+        heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+
+        Button printButton = new Button("Print Bill");
+        printButton.setOnAction(event -> billPrinter.printBill(orderIdField.getText(), billArea));
+
+        Button backButton = new Button("Back");
+        backButton.setOnAction(event -> stage.setScene(scene));
+
+        layout.getChildren().addAll(heading, orderIdField, billArea, printButton, backButton);
+        return new Scene(layout, 400, 600);
     }
 
     private Scene createBayarBillForm() {
-        // TODO: Implementasikan method ini untuk menampilkan page bayar bill
-        VBox menuLayout = new VBox(10);
+        VBox layout = new VBox(20);
+        layout.setPadding(new Insets(20));
+    
+        Label heading = new Label("Pay Bill");
+        heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+    
+        TextField orderIdField = new TextField();
+        orderIdField.setPromptText("Enter Order ID");
+    
+        ComboBox<String> paymentMethodDropdown = new ComboBox<>();
+        paymentMethodDropdown.getItems().addAll("Credit Card", "Debit Card");
+        paymentMethodDropdown.setPromptText("Select Payment Method");
+    
+        Button payButton = new Button("Pay Now");
+        payButton.setOnAction(event -> handleBayarBill(orderIdField.getText(), paymentMethodDropdown.getSelectionModel().getSelectedItem()));
 
-        return new Scene(menuLayout, 400,600);
+        Button backButton = new Button("Back");
+        backButton.setOnAction(event -> stage.setScene(scene));
+
+        layout.getChildren().addAll(heading, orderIdField, paymentMethodDropdown, payButton, backButton);
+        return new Scene(layout, 400, 600);
     }
 
 
     private Scene createCekSaldoScene() {
-        // TODO: Implementasikan method ini untuk menampilkan page cetak saldo
-        VBox menuLayout = new VBox(10);
+        VBox layout = new VBox(20);
+        layout.setPadding(new Insets(20));
+    
+        Label heading = new Label("Check Balance");
+        heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+    
+        Label balanceLabel = new Label();
+        balanceLabel.setText("Your balance is: $" + user.getSaldo());
 
-        return new Scene(menuLayout, 400,600);
+        Button backButton = new Button("Back");
+        backButton.setOnAction(event -> stage.setScene(scene));
+    
+        layout.getChildren().addAll(heading, balanceLabel, backButton);
+        return new Scene(layout, 400, 600);
     }
 
     private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, List<String> menuItems) {
         //TODO: Implementasi validasi isian pesanan
         try {
-
+            DepeFood.handleBuatPesanan(namaRestoran, tanggalPemesanan, menuItems.size(), menuItems);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 
-    private void handleBayarBill(String orderID, int pilihanPembayaran) {
+    private void handleBayarBill(String orderID, String pilihanPembayaran) {
         //TODO: Implementasi validasi pembayaran
         try {
-
+            DepeFood.handleBayarBill(orderID, pilihanPembayaran);
         } catch (Exception e) {
-
+            e.printStackTrace();
         }
     }
 }

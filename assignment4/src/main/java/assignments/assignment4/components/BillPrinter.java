@@ -17,6 +17,9 @@ import assignments.assignment3.Order;
 import assignments.assignment3.User;
 import assignments.assignment4.MainApp;
 
+import javafx.scene.text.Font;
+import javafx.scene.text.FontWeight;
+
 public class BillPrinter {
     private Stage stage;
     private MainApp mainApp;
@@ -28,20 +31,70 @@ public class BillPrinter {
         this.user = user;
     }
 
-    private Scene createBillPrinterForm(){
-        //TODO: Implementasi untuk menampilkan komponen hasil cetak bill
-        VBox layout = new VBox(10);
+    private Scene createBillPrinterForm() {
+        VBox layout = new VBox(20);
+        layout.setAlignment(Pos.CENTER);
+        layout.setPadding(new Insets(25));
+    
+        Label heading = new Label("Print Bill");
+        heading.setFont(Font.font("Arial", FontWeight.BOLD, 20));
+    
+        // Text field for entering the order ID
+        TextField orderIdField = new TextField();
+        orderIdField.setPromptText("Enter Order ID");
+    
+        // Define billArea before using it
+        TextArea billArea = new TextArea();
+        billArea.setEditable(false);
+        billArea.setPrefHeight(200);
 
-        return new Scene(layout, 400, 200);
+        // Define printButton after billArea
+        Button printButton = new Button("Print Bill");
+
+        // Update the printButton action to show bill details
+        printButton.setOnAction(e -> {
+            String orderId = orderIdField.getText();
+            if (!orderId.isEmpty()) {
+                printBill(orderId, billArea);
+            } else {
+                billArea.setText("Please enter a valid order ID.");
+            }
+        });
+            
+    
+        layout.getChildren().addAll(heading, orderIdField, printButton, billArea);
+        return new Scene(layout, 400, 400);
     }
 
-    private void printBill(String orderId) {
-        //TODO: Implementasi validasi orderID
-        if (true) {
-
+    public void printBill(String orderId, TextArea billArea) {
+        // Simulating fetching an order from a database
+        Order order = fetchOrderById(orderId);  // You'll need to implement this method
+    
+        if (order != null) {
+            StringBuilder billContent = new StringBuilder();
+            billContent.append("Bill Details:\n");
+            billContent.append("Order ID: ").append(order.getOrderId()).append("\n");
+            billContent.append("Date: ").append(order.getTanggal()).append("\n");
+            billContent.append("Items:\n");
+    
+            double total = 0;
+            for (Menu item : order.getItems()) {
+                billContent.append(item.getNama()).append(" - $").append(item.getHarga()).append("\n");
+                total += item.getHarga();
+            }
+            billContent.append("Total: $").append(total).append("\n");
+    
+            billArea.setText(billContent.toString());
         } else {
-
+            billArea.setText("No order found with ID: " + orderId);
         }
+    }
+    
+    // Example helper method to simulate fetching an order
+    private Order fetchOrderById(String orderId) {
+        // This should interact with your data management system to retrieve an Order
+        // Here, returning null simulates not finding the order
+        return DepeFood.getOrderOrNull(orderId);
     }
 
     public Scene getScene() {
