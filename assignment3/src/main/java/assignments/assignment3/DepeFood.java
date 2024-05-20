@@ -159,60 +159,61 @@ public class DepeFood {
         return order.getOrderId();
     }
 
-    public static void handleBayarBill(String orderId, String paymentOption) {
-        while (true) {
-            Order order = getOrderOrNull(orderId);
+    public static String handleBayarBill(String orderId, String paymentOption) {
+        // while loop diilangin karena kek buat apa
+        Order order = getOrderOrNull(orderId);
 
-            if (order == null) {
-                System.out.println("Order ID tidak dapat ditemukan.\n");
-                continue;
-            }
-
-            if (order.getOrderFinished()) {
-                System.out.println("Pesanan dengan ID ini sudah lunas!\n");
-                return;
-            }
-
-            System.out.print("Pilihan Metode Pembayaran: ");
-
-            if (!paymentOption.equals("Credit Card") && !paymentOption.equals("Debit")) {
-                System.out.println("Pilihan tidak valid, silakan coba kembali\n");
-                continue;
-            }
-
-            DepeFoodPaymentSystem paymentSystem = userLoggedIn.getPaymentSystem();
-
-            boolean isCreditCard = paymentSystem instanceof CreditCardPayment;
-
-            if ((isCreditCard && paymentOption.equals("Debit")) || (!isCreditCard && paymentOption.equals("Credit Card"))) {
-                System.out.println("User belum memiliki metode pembayaran ini!\n");
-                continue;
-            }
-
-            long amountToPay = 0;
-
-            try {
-                amountToPay = paymentSystem.processPayment((long) order.getTotalHarga());
-            } catch (Exception e) {
-                System.out.println(e.getMessage());
-                System.out.println();
-                continue;
-            }
-
-            long saldoLeft = userLoggedIn.getSaldo() - amountToPay;
-
-            userLoggedIn.setSaldo(saldoLeft);
-            handleUpdateStatusPesanan(order);
-
-            DecimalFormat decimalFormat = new DecimalFormat();
-            DecimalFormatSymbols symbols = new DecimalFormatSymbols();
-            symbols.setGroupingSeparator('.');
-            decimalFormat.setDecimalFormatSymbols(symbols);
-
-            System.out.printf("Berhasil Membayar Bill sebesar Rp %s", decimalFormat.format(amountToPay));
-
-            return;
+        if (order == null) {
+            return "Order ID tidak dapat ditemukan.\n";
         }
+
+        else if (order.getOrderFinished()) {
+            System.out.println("kelar");
+            return "Pesanan dengan ID ini sudah lunas!\n";
+        }
+
+        // gamungkin kesentuh karena pake dropdown
+        else if (!paymentOption.equals("Credit Card") && !paymentOption.equals("Debit")) {
+            System.out.println("Pilihan tidak valid, silakan coba kembali\n");
+        }
+
+        DepeFoodPaymentSystem paymentSystem = userLoggedIn.getPaymentSystem();
+
+        boolean isCreditCard = paymentSystem instanceof CreditCardPayment;
+
+        System.out.println(isCreditCard);
+        // debug
+        if ((isCreditCard && paymentOption.equals("Debit")) || (!isCreditCard && paymentOption.equals("Credit Card"))) {
+            System.out.println("maybe");
+            return "User belum memiliki metode pembayaran ini!\n";
+        }
+
+        long amountToPay = 0;
+
+        try {
+            amountToPay = paymentSystem.processPayment((long) order.getTotalHarga());
+        } catch (Exception e) {
+            System.out.println("ga valid");
+            System.out.println(e.getMessage());
+            System.out.println();
+        }
+
+        System.out.println("sampe sini ga");
+        long saldoLeft = userLoggedIn.getSaldo() - amountToPay;
+
+        System.out.println("how bout sini");
+        userLoggedIn.setSaldo(saldoLeft);
+        System.out.println(order.getOrderFinished());
+        handleUpdateStatusPesanan(order);
+        System.out.println(order.getOrderFinished());
+
+        DecimalFormat decimalFormat = new DecimalFormat();
+        DecimalFormatSymbols symbols = new DecimalFormatSymbols();
+        symbols.setGroupingSeparator('.');
+        decimalFormat.setDecimalFormatSymbols(symbols);
+
+        System.out.println("kalo ini");
+        return String.format("Berhasil Membayar Bill sebesar Rp %s", decimalFormat.format(amountToPay));
     }
 
     public static Order getOrderOrNull(String orderId) {
