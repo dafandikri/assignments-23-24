@@ -368,7 +368,7 @@ public class CustomerMenu extends MemberMenu{
         heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
     
         Label balanceLabel = new Label();
-        balanceLabel.setText("Your balance is: $" + user.getSaldo());
+        balanceLabel.setText("Your balance is: Rp. " + user.getSaldo());
 
         Button backButton = new Button("Back");
         backButton.setOnAction(event -> stage.setScene(scene));

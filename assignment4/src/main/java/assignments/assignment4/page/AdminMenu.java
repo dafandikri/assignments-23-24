@@ -47,6 +47,7 @@ import javafx.scene.control.ContentDisplay;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextArea;
 import javafx.scene.text.TextAlignment;
+import javafx.scene.layout.Priority;
 import javafx.stage.Stage;
 import java.beans.EventHandler;
 import java.time.LocalTime;
@@ -62,6 +63,8 @@ public class AdminMenu extends MemberMenu{
     private MainApp mainApp; // Reference to MainApp instance
     private ComboBox<String> restaurantComboBox = new ComboBox<>();
     private ListView<String> menuItemsListView = new ListView<>();
+    private Label errorLabelAddMenu;
+    private Label errorLabelAddResto;
 
     public AdminMenu(Stage stage, MainApp mainApp, User user) {
         this.stage = stage;
@@ -249,17 +252,45 @@ public class AdminMenu extends MemberMenu{
         TextField nameField = new TextField();
         nameField.setPromptText("Restaurant Name");
         nameField.setPrefWidth(200);
+        
         Button addButton = new Button("Add Restaurant");
         addButton.setOnAction(e -> handleTambahRestoran(nameField.getText()));
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> stage.setScene(getScene()));
-    
+
+        // Create an HBox for the buttons
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(10); // Set the spacing between the buttons
+        buttonBox.getChildren().addAll(backButton, addButton); // Add the buttons to the HBox
+        HBox.setHgrow(addButton, Priority.ALWAYS); // Make the addButton grow to fill the available space
+
+        errorLabelAddResto = new Label();
+        errorLabelAddResto.setTextFill(Color.RED); // Set the text color to red
+        errorLabelAddResto.setVisible(false); // Initially set it to invisible
+
+        grid.add(errorLabelAddResto, 0, 3); // Add the errorLabel to the grid
         grid.add(label, 0, 0);
         grid.add(nameField, 0, 1);
-        grid.add(addButton, 0, 2);
-        grid.add(backButton, 0, 3);
-    
-        return new Scene(new StackPane(grid), 400, 600);
+        grid.add(buttonBox, 0, 2); // Add the HBox to the grid
+
+        // Create a Rectangle with a DropShadow effect
+        Rectangle rectangle = new Rectangle(300, 300); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        // Create a StackPane to layer the Rectangle and GridPane
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, grid); // Add both rectangle and grid
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+
+        return new Scene(stackPane, 400, 600);
     }
 
     private Scene createAddMenuForm() {
@@ -268,7 +299,7 @@ public class AdminMenu extends MemberMenu{
         grid.setHgap(10);
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
-    
+
         Label label = new Label("Add Menu");
         label.setFont(Font.font("Avenir", FontWeight.NORMAL, 20));
         TextField restaurantNameField = new TextField();
@@ -277,24 +308,51 @@ public class AdminMenu extends MemberMenu{
         itemNameField.setPromptText("Item Name");
         TextField priceField = new TextField();
         priceField.setPromptText("Price");
+
         Button addButton = new Button("Add Menu");
         addButton.setOnAction(e -> {
             Restaurant selectedRestaurant = DepeFood.findRestaurant(restaurantNameField.getText());
             handleTambahMenuRestoran(selectedRestaurant, itemNameField.getText(), Double.parseDouble(priceField.getText()));
         });
+
         Button backButton = new Button("Back");
         backButton.setOnAction(e -> stage.setScene(getScene()));
-    
+
+        // Create an HBox for the buttons
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(10); // Set the spacing between the buttons
+        buttonBox.getChildren().addAll(backButton, addButton); // Add the buttons to the HBox
+        HBox.setHgrow(addButton, Priority.ALWAYS); // Make the addButton grow to fill the available space
+
+        errorLabelAddMenu = new Label();
+        errorLabelAddMenu.setTextFill(Color.RED); // Set the text color to red
+        errorLabelAddMenu.setVisible(false); // Initially set it to invisible
+
+        grid.add(errorLabelAddMenu, 0, 5); // Add the errorLabelAddMenu to the grid
         grid.add(label, 0, 0);
         grid.add(restaurantNameField, 0, 1);
         grid.add(itemNameField, 0, 2);
         grid.add(priceField, 0, 3);
-        grid.add(addButton, 0, 4);
-        grid.add(backButton, 0, 5);
-    
-        return new Scene(new StackPane(grid), 400, 600);
+        grid.add(buttonBox, 0, 4); // Add the HBox to the grid
+
+        Rectangle rectangle = new Rectangle(300, 300); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        // Create a StackPane to layer the Rectangle and GridPane
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, grid); // Add both rectangle and grid
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+
+        return new Scene(stackPane, 400, 600);
     }
-    
     
     private Scene createViewRestaurantsForm() {
         GridPane grid = new GridPane();
@@ -322,30 +380,90 @@ public class AdminMenu extends MemberMenu{
         Button backButton =  new Button("Back");
         backButton.setOnAction(e -> stage.setScene(getScene()));
 
+        // Create an HBox for the buttons
+        HBox buttonBox = new HBox();
+        buttonBox.setSpacing(10); // Set the spacing between the buttons
+        buttonBox.getChildren().addAll(backButton); // Add the backButton to the HBox
+        HBox.setHgrow(backButton, Priority.ALWAYS); // Make the backButton grow to fill the available space
+
         grid.add(label, 0, 0);
         grid.add(restaurantComboBox, 0, 1);
         grid.add(menuItemsListView, 0, 2);
-        grid.add(backButton, 0, 3);
-        return new Scene(new StackPane(grid), 400, 600);
+        grid.add(buttonBox, 0, 3); // Add the HBox to the grid
+
+        // Create a Rectangle with a DropShadow effect
+        Rectangle rectangle = new Rectangle(300, 550); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        // Create a StackPane to layer the Rectangle and GridPane
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, grid); // Add both rectangle and grid
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+
+        return new Scene(stackPane, 400, 600);
     }
+    
     private void handleTambahRestoran(String nama) {
         //TODO: Implementasi validasi isian nama Restoran
         String validName = DepeFood.getValidRestaurantName(nama);
         if (validName.equals(nama)) {
             DepeFood.handleTambahRestoran(nama);
-            showAlert("Success", "Restaurant Added", "Restaurant " + nama + " has been added successfully", Alert.AlertType.INFORMATION);
+            errorLabelAddResto.setText(nama + " has been added successfully");
+            errorLabelAddResto.setTextFill(Color.GREEN); // Set the text color to green
+            errorLabelAddResto.setVisible(true);
+        } else if (validName.startsWith("Restoran dengan nama")) {
+            errorLabelAddResto.setTextFill(Color.RED);
+            errorLabelAddResto.setText(nama + " has been taken");
+            errorLabelAddResto.setVisible(true);
         } else {
-            showAlert("Error", "Invalid Restaurant Name", validName, Alert.AlertType.ERROR);
+            errorLabelAddResto.setTextFill(Color.RED);
+            errorLabelAddResto.setText("require minimum of 4 characters");
+            errorLabelAddResto.setVisible(true);
         }
     }
 
     private void handleTambahMenuRestoran(Restaurant restaurant, String itemName, double price) {
-        //TODO: Implementasi validasi isian menu Restoran
-        if (restaurant == null) {
-            showAlert("Error", "Invalid Restaurant", "Please select a restaurant first", Alert.AlertType.ERROR);
-        } else {
+        errorLabelAddMenu.setTextFill(Color.RED);
+        try {
+            // Check if restaurant is null or not in the list
+            if (restaurant == null || DepeFood.findRestaurant(restaurant.getNama()) == null) {
+                throw new IllegalArgumentException("Resto can't be empty or not in the list");
+            }
+
+            // Check if itemName is null or empty
+            if (itemName == null || itemName.trim().isEmpty()) {
+                throw new IllegalArgumentException("Item name can't be empty");
+            }
+
+            // Check if itemName already exists in the restaurant's menu
+            if (restaurant.getMenu().stream().anyMatch(item -> item.getNama().equals(itemName))) {
+                throw new IllegalArgumentException("Item name already exists in the restaurant's menu");
+            }
+
+            // Check if price is less than or equal to zero
+            if (price <= 0 || Double.isNaN(price)) {
+                throw new IllegalArgumentException("Price must be greater than zero");
+            }
+            
+            // If all checks pass, add the menu item
             DepeFood.handleTambahMenuRestoran(restaurant, itemName, price);
-            showAlert("Success", "Menu Added", "Menu " + itemName + " has been added successfully", Alert.AlertType.INFORMATION);
+            errorLabelAddMenu.setText("Menu " + itemName + " has been added successfully");
+            errorLabelAddMenu.setTextFill(Color.GREEN); // Set the text color to green
+            errorLabelAddMenu.setVisible(true);
+        } catch (IllegalArgumentException e) {
+            errorLabelAddMenu.setText(e.getMessage());
+            errorLabelAddMenu.setVisible(true);
+        } catch (Exception e) {
+            errorLabelAddMenu.setText("An unexpected error occurred: " + e.getMessage());
+            errorLabelAddMenu.setVisible(true);
         }
     }
 }
