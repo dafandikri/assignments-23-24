@@ -474,32 +474,37 @@ public class CustomerMenu extends MemberMenu{
     private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, List<String> menuItems) {
         String orderID = DepeFood.handleBuatPesanan(namaRestoran, tanggalPemesanan, menuItems.size(), menuItems);
         if (orderID == null || menuItems.size()==0) {
-            errorLabelPesanan.setFont(Font.font("Avenir", 10));
-            errorLabelPesanan.setStyle("-fx-text-fill: red");
-            errorLabelPesanan.setText("Invalid input.");
+            errorTextFieldPesanan.setFont(Font.font("Avenir", 10));
+            errorTextFieldPesanan.setStyle("-fx-text-fill: red");
+            errorTextFieldPesanan.setText("Invalid input.");
         } else {
-            errorLabelPesanan.setFont(Font.font("Avenir", 10));
-            errorLabelPesanan.setStyle("-fx-text-fill: green");
-            errorLabelPesanan.setText("Order ID: " + orderID);
+            errorTextFieldPesanan.setFont(Font.font("Avenir", 10));
+            errorTextFieldPesanan.setStyle("-fx-text-fill: green");
+            errorTextFieldPesanan.setText("Order ID: " + orderID);
         }
-        errorLabelPesanan.setVisible(true);
+        errorTextFieldPesanan.setEditable(false);
+        errorTextFieldPesanan.setVisible(true);
     }
 
     private void handleBayarBill(String orderID, String pilihanPembayaran) {
         String result = DepeFood.handleBayarBill(orderID, pilihanPembayaran);
         if (result.startsWith("Order ID")) {
-            errorLabelBill.setStyle("-fx-text-fill: red");
-            errorLabelBill.setText("Order not found");
+            errorTextFieldBill.setStyle("-fx-text-fill: red");
+            errorTextFieldBill.setText("Order not found");
         } else if (result.startsWith("Pesanan dengan")) {
-            errorLabelBill.setStyle("-fx-text-fill: red");
-            errorLabelBill.setText("Order has been paid off");
-        } else if (result.startsWith("User belum")) {
-            errorLabelBill.setStyle("-fx-text-fill: red");
-            errorLabelBill.setText("Payment option unavailable");
+            errorTextFieldBill.setStyle("-fx-text-fill: red");
+            errorTextFieldBill.setText("Order has been paid off");
+        } else if (result.startsWith("Saldo tidak cukup")) {
+            errorTextFieldBill.setStyle("-fx-text-fill: red");
+            errorTextFieldBill.setText("Insufficient balance");
+        } else if (result.startsWith("Pilihan tidak")) {
+            errorTextFieldBill.setStyle("-fx-text-fill: red");
+            errorTextFieldBill.setText("Invalid payment option");
         } else {
-            errorLabelBill.setStyle("-fx-text-fill: green");
-            errorLabelBill.setText("Payment succesful");
+            errorTextFieldBill.setStyle("-fx-text-fill: green");
+            errorTextFieldBill.setText("Payment succesful");
         }
-        errorLabelBill.setVisible(true);
+        errorTextFieldBill.setEditable(false);
+        errorTextFieldBill.setVisible(true);
     }
 }

@@ -160,7 +160,6 @@ public class DepeFood {
     }
 
     public static String handleBayarBill(String orderId, String paymentOption) {
-        // while loop diilangin karena kek buat apa
         Order order = getOrderOrNull(orderId);
 
         if (order == null) {
@@ -171,7 +170,6 @@ public class DepeFood {
             return "Pesanan dengan ID ini sudah lunas!\n";
         }
 
-        // gamungkin kesentuh karena pake dropdown
         else if (!paymentOption.equals("Credit Card") && !paymentOption.equals("Debit")) {
             System.out.println("Pilihan tidak valid, silakan coba kembali\n");
         }
@@ -181,12 +179,15 @@ public class DepeFood {
         boolean isCreditCard = paymentSystem instanceof CreditCardPayment;
 
         System.out.println(isCreditCard);
-        // debug
         if ((isCreditCard && paymentOption.equals("Debit")) || (!isCreditCard && paymentOption.equals("Credit Card"))) {
             return "User belum memiliki metode pembayaran ini!\n";
         }
 
         long amountToPay = 0;
+
+        if (userLoggedIn.getSaldo() < order.getTotalHarga()) {
+            return "Saldo tidak cukup untuk membayar pesanan ini!\n";
+        }
 
         try {
             amountToPay = paymentSystem.processPayment((long) order.getTotalHarga());
