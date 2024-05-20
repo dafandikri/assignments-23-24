@@ -37,6 +37,7 @@ import javafx.scene.control.ButtonBar.ButtonData;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.text.Text;
 import javafx.scene.control.TextArea;
+import javafx.scene.control.SelectionMode;
 import javafx.scene.text.TextAlignment;
 import javafx.stage.Stage;
 import java.beans.EventHandler;
@@ -71,6 +72,9 @@ public class CustomerMenu extends MemberMenu{
     private MainApp mainApp;
     private List<Restaurant> restoList = new ArrayList<>();
     private User user;
+
+    private Label errorLabelPesanan = new Label();
+    private Label errorLabelBill = new Label();
 
 
     public CustomerMenu(Stage stage, MainApp mainApp, User user) {
@@ -260,8 +264,15 @@ public class CustomerMenu extends MemberMenu{
     }
 
     private Scene createTambahPesananForm() {
+        errorLabelPesanan = new Label();
+        errorLabelPesanan.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        errorLabelPesanan.setTextFill(Color.GREEN); // Set the text color to green
+        errorLabelPesanan.setVisible(false); // Initially, the label should be invisible
+
         VBox layout = new VBox(20);
-        layout.setPadding(new Insets(20));
+        layout.setPadding(new Insets(50, 50, 50, 50));
+
+        layout.getChildren().add(errorLabelPesanan);
 
         Label heading = new Label("Make a New Order");
         heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -280,6 +291,11 @@ public class CustomerMenu extends MemberMenu{
 
         // List for menu items
         ListView<String> menuListView = new ListView<>();
+        menuListView.setPrefHeight(500); // Set preferred height
+        menuListView.setPrefWidth(150); // Set preferred width
+
+        // Allow multiple selections in the ListView
+        menuListView.getSelectionModel().setSelectionMode(SelectionMode.MULTIPLE);
 
         restaurantDropdown.getSelectionModel().selectedItemProperty().addListener((obs, oldSelection, newSelection) -> {
             menuListView.getItems().clear();
@@ -301,13 +317,38 @@ public class CustomerMenu extends MemberMenu{
                 formattedDate,
                 selectedItems
             );
+
         });
 
         Button backButton = new Button("Back");
         backButton.setOnAction(event -> stage.setScene(scene));
 
-        layout.getChildren().addAll(heading, restaurantDropdown, datePicker, menuListView, submitButton, backButton);
-        return new Scene(layout, 400, 600);
+        Rectangle rectangle = new Rectangle(370, 580); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        // Create a StackPane to layer the Rectangle and layout
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, layout); // Add both rectangle and layout
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+
+        // Create an HBox for the buttons
+        HBox buttonBox = new HBox(10); // 10 is the spacing between buttons
+        buttonBox.setAlignment(Pos.CENTER); // Center the buttons in the HBox
+
+        // Add the buttons to the HBox
+        buttonBox.getChildren().addAll(backButton, submitButton);
+        
+        layout.getChildren().addAll(heading, restaurantDropdown, datePicker, menuListView, buttonBox);
+
+        return new Scene(stackPane, 400, 600);
     }
 
     private Scene createBillPrinter() {
@@ -320,7 +361,7 @@ public class CustomerMenu extends MemberMenu{
         billArea.setPrefHeight(200);
 
         VBox layout = new VBox(20);
-        layout.setPadding(new Insets(20));
+        layout.setPadding(new Insets(25, 25, 25, 25));
 
         Label heading = new Label("Print Bill");
         heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -332,37 +373,74 @@ public class CustomerMenu extends MemberMenu{
         backButton.setOnAction(event -> stage.setScene(scene));
 
         layout.getChildren().addAll(heading, orderIdField, billArea, printButton, backButton);
-        return new Scene(layout, 400, 600);
+
+        Rectangle rectangle = new Rectangle(370, 580); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, layout); // Add both rectangle and layout
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+
+        return new Scene(stackPane, 400, 600);
     }
 
     private Scene createBayarBillForm() {
         VBox layout = new VBox(20);
-        layout.setPadding(new Insets(20));
-    
+        layout.setPadding(new Insets(50, 50, 50, 50));
+
         Label heading = new Label("Pay Bill");
         heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
-    
+
         TextField orderIdField = new TextField();
         orderIdField.setPromptText("Enter Order ID");
-    
+
         ComboBox<String> paymentMethodDropdown = new ComboBox<>();
         paymentMethodDropdown.getItems().addAll("Credit Card", "Debit Card");
         paymentMethodDropdown.setPromptText("Select Payment Method");
-    
+
         Button payButton = new Button("Pay Now");
         payButton.setOnAction(event -> handleBayarBill(orderIdField.getText(), paymentMethodDropdown.getSelectionModel().getSelectedItem()));
 
         Button backButton = new Button("Back");
         backButton.setOnAction(event -> stage.setScene(scene));
 
-        layout.getChildren().addAll(heading, orderIdField, paymentMethodDropdown, payButton, backButton);
-        return new Scene(layout, 400, 600);
-    }
+        // Add the errorLabelBill
+        errorLabelBill = new Label();
+        errorLabelBill.setFont(Font.font("Arial", FontWeight.BOLD, 14));
+        errorLabelBill.setTextFill(Color.RED); // Set the text color to red
+        errorLabelBill.setVisible(false); // Initially, the label should be invisible
 
+        layout.getChildren().addAll(heading, orderIdField, paymentMethodDropdown, payButton, backButton, errorLabelBill);
+
+        Rectangle rectangle = new Rectangle(370, 580); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, layout); // Add both rectangle and layout
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+
+        return new Scene(stackPane, 400, 600);
+    }
 
     private Scene createCekSaldoScene() {
         VBox layout = new VBox(20);
-        layout.setPadding(new Insets(20));
+        layout.setPadding(new Insets(50, 50, 50, 50));
     
         Label heading = new Label("Check Balance");
         heading.setFont(Font.font("Arial", FontWeight.BOLD, 14));
@@ -372,26 +450,58 @@ public class CustomerMenu extends MemberMenu{
 
         Button backButton = new Button("Back");
         backButton.setOnAction(event -> stage.setScene(scene));
-    
+
         layout.getChildren().addAll(heading, balanceLabel, backButton);
-        return new Scene(layout, 400, 600);
+
+        Rectangle rectangle = new Rectangle(370, 580); // Adjust size as needed
+        rectangle.setFill(Color.WHITE);
+        rectangle.setArcWidth(30.0); // Set corner radius
+        rectangle.setArcHeight(30.0); // Set corner radius
+        DropShadow dropShadow = new DropShadow();
+        dropShadow.setRadius(10.0);
+        dropShadow.setOffsetX(0);
+        dropShadow.setOffsetY(5.0);
+        dropShadow.setColor(Color.color(0.4, 0.5, 0.5)); // Set shadow color
+        rectangle.setEffect(dropShadow);
+
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().addAll(rectangle, layout); // Add both rectangle and layout
+        stackPane.setStyle("-fx-background-color: #F0F8FF;"); // Set background color to very light blue
+    
+        return new Scene(stackPane, 400, 600);
     }
 
     private void handleBuatPesanan(String namaRestoran, String tanggalPemesanan, List<String> menuItems) {
-        //TODO: Implementasi validasi isian pesanan
-        try {
-            DepeFood.handleBuatPesanan(namaRestoran, tanggalPemesanan, menuItems.size(), menuItems);
-        } catch (Exception e) {
-            e.printStackTrace();
+        String orderID = DepeFood.handleBuatPesanan(namaRestoran, tanggalPemesanan, menuItems.size(), menuItems);
+        if (orderID == null || menuItems.size()==0) {
+            errorLabelPesanan.setFont(Font.font("Avenir", 10));
+            errorLabelPesanan.setStyle("-fx-text-fill: red");
+            errorLabelPesanan.setText("Invalid input.");
+        } else {
+            errorLabelPesanan.setFont(Font.font("Avenir", 10));
+            errorLabelPesanan.setStyle("-fx-text-fill: green");
+            errorLabelPesanan.setText("Order ID:\n" + orderID);
         }
     }
 
     private void handleBayarBill(String orderID, String pilihanPembayaran) {
-        //TODO: Implementasi validasi pembayaran
-        try {
-            DepeFood.handleBayarBill(orderID, pilihanPembayaran);
-        } catch (Exception e) {
-            e.printStackTrace();
+        String result = DepeFood.handleBayarBill(orderID, pilihanPembayaran);
+        if (result.startsWith("Order ID")) {
+            errorLabelBill.setFont(Font.font("Avenir", 10));
+            errorLabelBill.setStyle("-fx-text-fill: red");
+            errorLabelBill.setText("Order not found");
+        } else if (result.startsWith("Pesanan dengan")) {
+            errorLabelBill.setFont(Font.font("Avenir", 10));
+            errorLabelBill.setStyle("-fx-text-fill: red");
+            errorLabelBill.setText("Order has been paid off");
+        } else if (result.startsWith("User belum")) {
+            errorLabelBill.setFont(Font.font("Avenir", 10));
+            errorLabelBill.setStyle("-fx-text-fill: red");
+            errorLabelBill.setText("Payment option unavailable");
+        } else {
+            errorLabelBill.setFont(Font.font("Avenir", 10));
+            errorLabelBill.setStyle("-fx-text-fill: green");
+            errorLabelBill.setText("Payment succesful");
         }
     }
 }
