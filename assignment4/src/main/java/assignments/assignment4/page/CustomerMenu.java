@@ -480,7 +480,7 @@ public class CustomerMenu extends MemberMenu{
         } else {
             errorLabelPesanan.setFont(Font.font("Avenir", 10));
             errorLabelPesanan.setStyle("-fx-text-fill: green");
-            errorLabelPesanan.setText("Order ID:\n" + orderID);
+            errorLabelPesanan.setText("Order ID: " + orderID);
         }
         errorLabelPesanan.setVisible(true);
     }

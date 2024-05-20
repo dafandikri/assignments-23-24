@@ -168,7 +168,6 @@ public class DepeFood {
         }
 
         else if (order.getOrderFinished()) {
-            System.out.println("kelar");
             return "Pesanan dengan ID ini sudah lunas!\n";
         }
 
@@ -184,7 +183,6 @@ public class DepeFood {
         System.out.println(isCreditCard);
         // debug
         if ((isCreditCard && paymentOption.equals("Debit")) || (!isCreditCard && paymentOption.equals("Credit Card"))) {
-            System.out.println("maybe");
             return "User belum memiliki metode pembayaran ini!\n";
         }
 
@@ -193,15 +191,12 @@ public class DepeFood {
         try {
             amountToPay = paymentSystem.processPayment((long) order.getTotalHarga());
         } catch (Exception e) {
-            System.out.println("ga valid");
             System.out.println(e.getMessage());
             System.out.println();
         }
 
-        System.out.println("sampe sini ga");
         long saldoLeft = userLoggedIn.getSaldo() - amountToPay;
 
-        System.out.println("how bout sini");
         userLoggedIn.setSaldo(saldoLeft);
         System.out.println(order.getOrderFinished());
         handleUpdateStatusPesanan(order);
@@ -212,7 +207,6 @@ public class DepeFood {
         symbols.setGroupingSeparator('.');
         decimalFormat.setDecimalFormatSymbols(symbols);
 
-        System.out.println("kalo ini");
         return String.format("Berhasil Membayar Bill sebesar Rp %s", decimalFormat.format(amountToPay));
     }
 
