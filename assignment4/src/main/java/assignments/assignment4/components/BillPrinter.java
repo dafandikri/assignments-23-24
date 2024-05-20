@@ -74,16 +74,25 @@ public class BillPrinter {
             StringBuilder billContent = new StringBuilder();
             billContent.append("Bill Details:\n");
             billContent.append("Order ID: ").append(order.getOrderId()).append("\n");
-            billContent.append("Date: ").append(order.getTanggal()).append("\n");
-            billContent.append("Items:\n");
-    
+            billContent.append("Tanggal Pemesanan: ").append(order.getTanggal()).append("\n");
+            billContent.append("Restaurant: ").append(order.getResto().getNama()).append("\n");
+            billContent.append("Lokasi Pengiriman: ").append(user.getLokasi()).append("\n");
+            if (order.getOrderFinished()) {
+                billContent.append("Status Pengiriman: Finished\n");
+            } else {
+                billContent.append("Status Pengiriman: Not Finished\n");
+            }
+
+            billContent.append("Pesanan:\n");
+            billContent.append("Biaya Pengiriman: Rp. ").append(order.getOngkir()).append("\n");
             double total = 0;
             for (Menu item : order.getItems()) {
-                billContent.append(item.getNama()).append(" - $").append(item.getHarga()).append("\n");
+                billContent.append(item.getNama()).append(" - Rp. ").append(item.getHarga()).append("\n");
                 total += item.getHarga();
             }
-            billContent.append("Total: $").append(total).append("\n");
-    
+            total += order.getOngkir();
+            billContent.append("Total Biaya: Rp. ").append(total).append("\n");
+
             billArea.setText(billContent.toString());
         } else {
             billArea.setText("No order found with ID: " + orderId);

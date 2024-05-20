@@ -312,7 +312,7 @@ public class AdminMenu extends MemberMenu{
         Button addButton = new Button("Add Menu");
         addButton.setOnAction(e -> {
             Restaurant selectedRestaurant = DepeFood.findRestaurant(restaurantNameField.getText());
-            handleTambahMenuRestoran(selectedRestaurant, itemNameField.getText(), Double.parseDouble(priceField.getText()));
+            handleTambahMenuRestoran(selectedRestaurant, itemNameField.getText(), priceField.getText());
         });
 
         Button backButton = new Button("Back");
@@ -425,17 +425,17 @@ public class AdminMenu extends MemberMenu{
             errorLabelAddResto.setVisible(true);
         } else {
             errorLabelAddResto.setTextFill(Color.RED);
-            errorLabelAddResto.setText("require minimum of 4 characters");
+            errorLabelAddResto.setText("Require minimum of 4 characters");
             errorLabelAddResto.setVisible(true);
         }
     }
 
-    private void handleTambahMenuRestoran(Restaurant restaurant, String itemName, double price) {
+    private void handleTambahMenuRestoran(Restaurant restaurant, String itemName, String price) {
         errorLabelAddMenu.setTextFill(Color.RED);
         try {
             // Check if restaurant is null or not in the list
             if (restaurant == null || DepeFood.findRestaurant(restaurant.getNama()) == null) {
-                throw new IllegalArgumentException("Resto can't be empty or not in the list");
+                throw new IllegalArgumentException("Resto is null or not in the list");
             }
 
             // Check if itemName is null or empty
@@ -445,17 +445,18 @@ public class AdminMenu extends MemberMenu{
 
             // Check if itemName already exists in the restaurant's menu
             if (restaurant.getMenu().stream().anyMatch(item -> item.getNama().equals(itemName))) {
-                throw new IllegalArgumentException("Item name already exists in the restaurant's menu");
+                throw new IllegalArgumentException("Item name already exists");
             }
 
             // Check if price is less than or equal to zero
-            if (price <= 0 || Double.isNaN(price)) {
+            Double priceDouble = Double.parseDouble(price);
+            if (Double.parseDouble(price) <= 0 || price.isEmpty()) {
                 throw new IllegalArgumentException("Price must be greater than zero");
             }
             
             // If all checks pass, add the menu item
-            DepeFood.handleTambahMenuRestoran(restaurant, itemName, price);
-            errorLabelAddMenu.setText("Menu " + itemName + " has been added successfully");
+            DepeFood.handleTambahMenuRestoran(restaurant, itemName, priceDouble);
+            errorLabelAddMenu.setText(itemName + " has been added");
             errorLabelAddMenu.setTextFill(Color.GREEN); // Set the text color to green
             errorLabelAddMenu.setVisible(true);
         } catch (IllegalArgumentException e) {
