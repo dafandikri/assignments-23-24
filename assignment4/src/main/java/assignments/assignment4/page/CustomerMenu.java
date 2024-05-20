@@ -488,19 +488,15 @@ public class CustomerMenu extends MemberMenu{
     private void handleBayarBill(String orderID, String pilihanPembayaran) {
         String result = DepeFood.handleBayarBill(orderID, pilihanPembayaran);
         if (result.startsWith("Order ID")) {
-            errorLabelBill.setFont(Font.font("Avenir", 10));
             errorLabelBill.setStyle("-fx-text-fill: red");
             errorLabelBill.setText("Order not found");
         } else if (result.startsWith("Pesanan dengan")) {
-            errorLabelBill.setFont(Font.font("Avenir", 10));
             errorLabelBill.setStyle("-fx-text-fill: red");
             errorLabelBill.setText("Order has been paid off");
         } else if (result.startsWith("User belum")) {
-            errorLabelBill.setFont(Font.font("Avenir", 10));
             errorLabelBill.setStyle("-fx-text-fill: red");
             errorLabelBill.setText("Payment option unavailable");
         } else {
-            errorLabelBill.setFont(Font.font("Avenir", 10));
             errorLabelBill.setStyle("-fx-text-fill: green");
             errorLabelBill.setText("Payment succesful");
         }
