@@ -482,6 +482,7 @@ public class CustomerMenu extends MemberMenu{
             errorLabelPesanan.setStyle("-fx-text-fill: green");
             errorLabelPesanan.setText("Order ID:\n" + orderID);
         }
+        errorLabelPesanan.setVisible(true);
     }
 
     private void handleBayarBill(String orderID, String pilihanPembayaran) {
@@ -503,5 +504,6 @@ public class CustomerMenu extends MemberMenu{
             errorLabelBill.setStyle("-fx-text-fill: green");
             errorLabelBill.setText("Payment succesful");
         }
+        errorLabelBill.setVisible(true);
     }
 }
