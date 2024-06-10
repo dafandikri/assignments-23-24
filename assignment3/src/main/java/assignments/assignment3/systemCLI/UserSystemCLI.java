@@ -20,8 +20,8 @@ public abstract class UserSystemCLI {
     protected static List<Order> orderList;
     protected static ArrayList<Menu> menuList;
     protected Scanner input;
-    protected ArrayList<Restaurant> restoList;
-    protected ArrayList<User> userList;
+    protected static ArrayList<Restaurant> restoList;
+    protected static ArrayList<User> userList;
     protected User userLoggedIn;
 
     public void run() {

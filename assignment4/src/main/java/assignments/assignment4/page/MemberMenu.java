@@ -19,8 +19,7 @@ public abstract class MemberMenu {
     abstract public Scene getScene();
 
     protected void refresh(){
-        //TODO: Implemenetasi method ini untuk merefresh data yang dimiliki aplikasi
-        // Hint: Method ini digunakan pada *seluruh method* yang membutuhkan update
+        scene = createBaseMenu();
     }
 
 }

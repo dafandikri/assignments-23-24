@@ -294,7 +294,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
                                     userLoggedIn.setSaldo(userLoggedIn.getSaldo() - totalBiaya);
                                     currentResto.setSaldo(currentResto.getSaldo() + totalBiaya);
                                     currentOrder.setOrderFinished(true);
-                                    System.out.print("Berhasil Membayar Bill sebesar Rp " + (int)totalHarga);
+                                    System.out.print("Berhasil Membayar Bill sebesar Rp " + (int) totalBiaya);
                                     return;
                                 } else if (userLoggedIn.getSaldo() < totalBiaya) {
                                     System.out.print("Saldo tidak mencukupi mohon menggunakan metode pembayaran yang lain");
@@ -305,6 +305,7 @@ public class CustomerSystemCLI extends UserSystemCLI{
                                 }
                             } else {
                                 System.out.print("User belum memiliki metode pembayaran ini!");
+                                return;
                             }
                     } else {
                         System.out.println("Pilihan tidak valid, silakan coba lagi.");
